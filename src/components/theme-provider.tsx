@@ -12,21 +12,10 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   const [theme] = useAtom(themeAtom);
 
   useEffect(() => {
-    // Initialize theme on mount
-    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
-    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-      .matches
-      ? "dark"
-      : "light";
-    const initialTheme = savedTheme || systemTheme;
+    const root = document.documentElement;
 
-    document.documentElement.classList.toggle("dark", initialTheme === "dark");
-  }, []);
-
-  useEffect(() => {
-    // Save theme to localStorage and update document class
-    localStorage.setItem("theme", theme);
-    document.documentElement.classList.toggle("dark", theme === "dark");
+    root.classList.remove("light", "dark");
+    root.classList.add(theme);
   }, [theme]);
 
   return <>{children}</>;
