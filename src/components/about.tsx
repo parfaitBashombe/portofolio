@@ -1,24 +1,25 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Palette } from "lucide-react";
+import { LuGitBranch, LuMonitorSmartphone } from "react-icons/lu";
 import {
-  Code,
-  Database,
-  Globe,
-  Smartphone,
-  GitBranch,
-  Palette,
-} from "lucide-react";
+  RiNextjsFill,
+  RiReactjsFill,
+  RiSupabaseFill,
+  RiTailwindCssFill,
+} from "react-icons/ri";
+import { SiTypescript } from "react-icons/si";
 
 const skills = [
-  { name: "React", icon: Code, level: 95 },
-  { name: "Next.js", icon: Globe, level: 90 },
-  { name: "TypeScript", icon: Code, level: 88 },
-  { name: "Tailwind CSS", icon: Palette, level: 92 },
-  { name: "Supabase", icon: Database, level: 85 },
-  { name: "Git", icon: GitBranch, level: 90 },
-  { name: "Responsive Design", icon: Smartphone, level: 94 },
-  { name: "UI/UX Design", icon: Palette, level: 82 },
+  { name: "React", icon: RiReactjsFill, level: 95 },
+  { name: "Next.js", icon: RiNextjsFill, level: 80 },
+  { name: "TypeScript", icon: SiTypescript, level: 80 },
+  { name: "Tailwind CSS", icon: RiTailwindCssFill, level: 82 },
+  { name: "Supabase", icon: RiSupabaseFill, level: 75 },
+  { name: "Git", icon: LuGitBranch, level: 70 },
+  { name: "Responsive Design", icon: LuMonitorSmartphone, level: 94 },
+  { name: "UI/UX Design", icon: Palette, level: 62 },
 ];
 
 export function About() {
@@ -56,7 +57,7 @@ export function About() {
               >
                 <img
                   src="https://ik.imagekit.io/zzot6yvyh/incognito.jpeg?updatedAt=1756579630119"
-                  alt="John Doe - Profile Photo"
+                  alt="Parfait Bashombe - Profile Photo"
                   className="w-80 h-80 mx-auto lg:mx-0 rounded-2xl object-cover shadow-card"
                 />
                 <div className="absolute inset-0 bg-gradient-primary opacity-10 rounded-2xl"></div>
@@ -64,16 +65,19 @@ export function About() {
             </div>
 
             <div className="text-center lg:text-left space-y-4">
-              <h3 className="text-2xl font-semibold">Hi, I'm John Doe</h3>
+              <h3 className="text-2xl font-semibold">
+                Hi, I&apos;m Parfait Bashombe
+              </h3>
               <p className="text-muted-foreground leading-relaxed">
-                I'm a passionate front-end developer with 2+ years of experience
-                creating modern, responsive web applications. I love turning
-                complex problems into simple, beautiful, and intuitive designs.
+                I&apos;m a passionate front-end developer with 2+ years of
+                experience creating modern, responsive web applications. I love
+                turning complex problems into simple, beautiful, and intuitive
+                designs.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                When I'm not coding, you can find me exploring new technologies,
-                contributing to open-source projects, or sharing knowledge with
-                the developer community.
+                When I&apos;m not coding, you can find me exploring new
+                technologies, contributing to open-source projects, or sharing
+                knowledge with the developer community.
               </p>
             </div>
           </motion.div>

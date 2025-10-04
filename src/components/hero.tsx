@@ -31,7 +31,7 @@ export function Hero() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-lg text-muted-foreground font-medium"
           >
-            Hello, I'm
+            Hello, I&apos;m
           </motion.p>
 
           {/* Name */}
@@ -41,7 +41,7 @@ export function Hero() {
             transition={{ delay: 0.4, duration: 0.8 }}
             className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight"
           >
-            <span className="text-gradient">John Doe</span>
+            <span className="text-gradient">Parfait Bashombe</span>
           </motion.h1>
 
           {/* Title */}
@@ -74,7 +74,7 @@ export function Hero() {
           >
             <Button
               onClick={() => scrollToSection("#projects")}
-              className="btn-hero group"
+              className="bg-gradient-primary"
               size="lg"
             >
               View My Work

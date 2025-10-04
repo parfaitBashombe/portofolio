@@ -21,8 +21,8 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "john.doe@example.com",
-    href: "mailto:john.doe@example.com",
+    value: "parfaitbashombe@gmail.com",
+    href: "mailto:parfaitbashombe@gmail.com",
   },
   {
     icon: Phone,
@@ -33,7 +33,7 @@ const contactInfo = [
   {
     icon: MapPin,
     label: "Location",
-    value: "San Francisco, CA",
+    value: "Kampala, UG",
     href: null,
   },
 ];
@@ -89,7 +89,7 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="section-padding bg-accent-foreground">
+    <section id="contact" className="section-padding bg-accent">
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -100,8 +100,8 @@ export function Contact() {
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Have a project in mind or want to collaborate? I'd love to hear from
-            you!
+            Have a project in mind or want to collaborate? I&apos;d love to hear
+            from you!
           </p>
         </motion.div>
 
@@ -115,9 +115,11 @@ export function Contact() {
             className="space-y-8"
           >
             <div>
-              <h3 className="text-2xl font-semibold mb-6">Let's Connect</h3>
+              <h3 className="text-2xl font-semibold mb-6">
+                Let&apos;s Connect
+              </h3>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                I'm always interested in new opportunities and exciting
+                I&apos;m always interested in new opportunities and exciting
                 projects. Whether you have a question or just want to say hi,
                 feel free to reach out!
               </p>
@@ -199,7 +201,6 @@ export function Contact() {
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    required
                     className="transition-all duration-300 focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
@@ -212,7 +213,6 @@ export function Contact() {
                     type="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    required
                     className="transition-all duration-300 focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
@@ -225,7 +225,6 @@ export function Contact() {
                   name="subject"
                   value={formData.subject}
                   onChange={handleInputChange}
-                  required
                   className="transition-all duration-300 focus:ring-2 focus:ring-primary/20"
                 />
               </div>
@@ -237,16 +236,15 @@ export function Contact() {
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  required
-                  rows={6}
-                  className="transition-all duration-300 focus:ring-2 focus:ring-primary/20 resize-none"
+                  rows={8}
+                  className="min-h-[150px] transition-all duration-300 focus:ring-2 focus:ring-primary/20 resize-none"
                 />
               </div>
 
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full btn-hero group"
+                className="w-full bg-gradient-primary group"
                 size="lg"
               >
                 {isSubmitting ? (

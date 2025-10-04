@@ -62,10 +62,12 @@ export function Footer() {
             viewport={{ once: true }}
             className="lg:col-span-2 space-y-4"
           >
-            <h3 className="text-2xl font-bold text-gradient">John Doe</h3>
+            <h3 className="text-2xl font-bold text-gradient">
+              Parfait Bashombe
+            </h3>
             <p className="text-muted-foreground leading-relaxed max-w-md">
               Front-End & Website Developer passionate about creating beautiful,
-              functional web experiences. Let's build something amazing
+              functional web experiences. Let&apos;s build something amazing
               together.
             </p>
 
@@ -150,7 +152,9 @@ export function Footer() {
         >
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 text-sm text-muted-foreground">
             <div className="flex items-center space-x-1">
-              <span>© {new Date().getFullYear()} John Doe. Made with</span>
+              <span>
+                © {new Date().getFullYear()} Parfait Bashombe. Made with
+              </span>
               <Heart className="h-4 w-4 text-red-500 animate-pulse" />
               <span>and React</span>
             </div>

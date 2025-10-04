@@ -26,6 +26,10 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "auto";
+  }, [isMobileMenuOpen]);
+
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
@@ -95,12 +99,12 @@ export function Navbar() {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <motion.div
-            className="md:hidden bg-background border-t border-border/50"
+            className="md:hidden bg-background border-t border-border/50 "
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
           >
-            <div className="px-4 py-4 space-y-4">
+            <div className="px-4 py-4 space-y-4 h-[100vh]">
               {navItems.map((item) => (
                 <button
                   key={item.name}
