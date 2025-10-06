@@ -1,30 +1,11 @@
 "use client";
 
+import { skills } from "@/lib/data/skills";
 import { motion } from "framer-motion";
-import { Palette } from "lucide-react";
-import { LuGitBranch, LuMonitorSmartphone } from "react-icons/lu";
-import {
-  RiNextjsFill,
-  RiReactjsFill,
-  RiSupabaseFill,
-  RiTailwindCssFill,
-} from "react-icons/ri";
-import { SiTypescript } from "react-icons/si";
-
-const skills = [
-  { name: "React", icon: RiReactjsFill, level: 95 },
-  { name: "Next.js", icon: RiNextjsFill, level: 80 },
-  { name: "TypeScript", icon: SiTypescript, level: 80 },
-  { name: "Tailwind CSS", icon: RiTailwindCssFill, level: 82 },
-  { name: "Supabase", icon: RiSupabaseFill, level: 75 },
-  { name: "Git", icon: LuGitBranch, level: 70 },
-  { name: "Responsive Design", icon: LuMonitorSmartphone, level: 94 },
-  { name: "UI/UX Design", icon: Palette, level: 62 },
-];
 
 export function About() {
   return (
-    <section id="about" className="section-padding bg-gradient-accent">
+    <section id="about" className="section-padding bg-accent">
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

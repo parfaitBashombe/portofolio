@@ -1,42 +1,8 @@
 "use client";
 
+import { quickLinks, socialLinks } from "@/lib/data/social-links";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Twitter, Mail, Heart } from "lucide-react";
-
-const socialLinks = [
-  {
-    icon: Github,
-    label: "GitHub",
-    href: "https://github.com/johndoe",
-    color: "hover:text-gray-900 dark:hover:text-gray-100",
-  },
-  {
-    icon: Linkedin,
-    label: "LinkedIn",
-    href: "https://linkedin.com/in/johndoe",
-    color: "hover:text-blue-600",
-  },
-  {
-    icon: Twitter,
-    label: "Twitter",
-    href: "https://twitter.com/johndoe",
-    color: "hover:text-blue-400",
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    href: "mailto:john.doe@example.com",
-    color: "hover:text-green-600",
-  },
-];
-
-const quickLinks = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Projects", href: "#projects" },
-  { name: "Blog", href: "#blog" },
-  { name: "Contact", href: "#contact" },
-];
+import { Heart } from "lucide-react";
 
 export function Footer() {
   const scrollToSection = (href: string) => {
@@ -135,7 +101,7 @@ export function Footer() {
                 placeholder="Enter your email"
                 className="w-full px-3 py-2 text-sm rounded-lg border border-border/50 bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
               />
-              <button className="w-full px-3 py-2 text-sm font-medium text-white bg-gradient-primary rounded-lg hover:shadow-glow transition-all duration-300">
+              <button className="w-full px-3 py-2 text-sm font-medium text-white bg-accent-foreground rounded-lg hover:shadow-glow transition-all duration-300">
                 Subscribe
               </button>
             </div>
