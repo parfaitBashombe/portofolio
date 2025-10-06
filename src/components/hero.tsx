@@ -74,7 +74,7 @@ export function Hero() {
           >
             <Button
               onClick={() => scrollToSection("#projects")}
-              className="bg-gradient-primary"
+              className="bg-accent-foreground"
               size="lg"
             >
               View My Work

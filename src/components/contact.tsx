@@ -2,41 +2,13 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Send,
-  Github,
-  Linkedin,
-  Twitter,
-} from "lucide-react";
+import { Send, Github, Linkedin, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-
-const contactInfo = [
-  {
-    icon: Mail,
-    label: "Email",
-    value: "parfaitbashombe@gmail.com",
-    href: "mailto:parfaitbashombe@gmail.com",
-  },
-  {
-    icon: Phone,
-    label: "Phone",
-    value: "+1 (555) 123-4567",
-    href: "tel:+15551234567",
-  },
-  {
-    icon: MapPin,
-    label: "Location",
-    value: "Kampala, UG",
-    href: null,
-  },
-];
+import { contactInfo } from "@/lib/data/contact-info";
 
 const socialLinks = [
   {
@@ -244,7 +216,7 @@ export function Contact() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-primary group"
+                className="w-full bg-accent-foreground group"
                 size="lg"
               >
                 {isSubmitting ? (
