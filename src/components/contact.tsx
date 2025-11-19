@@ -2,36 +2,30 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Github, Linkedin, Twitter } from "lucide-react";
+import { Send, Github, Linkedin, Twitter, Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { contactInfo } from "@/lib/data/contact-info";
+import { IContactInfo } from "@/lib/api/contact-info";
+import { ISocialLink } from "@/lib/api/social-links";
+import { contactSchema } from "@/lib/validators/contact";
 
-const socialLinks = [
-  {
-    icon: Github,
-    label: "GitHub",
-    href: "https://github.com/johndoe",
-    color: "hover:text-gray-900 dark:hover:text-gray-100",
-  },
-  {
-    icon: Linkedin,
-    label: "LinkedIn",
-    href: "https://linkedin.com/in/johndoe",
-    color: "hover:text-blue-600",
-  },
-  {
-    icon: Twitter,
-    label: "Twitter",
-    href: "https://twitter.com/johndoe",
-    color: "hover:text-blue-400",
-  },
-];
+// Icon mapping for social links
+const socialIconMap: Record<string, any> = {
+  "GitHub": Github,
+  "LinkedIn": Linkedin,
+  "Twitter": Twitter,
+  "Email": Mail,
+};
 
-export function Contact() {
+interface ContactProps {
+  contactInfo: IContactInfo | null;
+  socialLinks: ISocialLink[];
+}
+
+export function Contact({ contactInfo, socialLinks }: ContactProps) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -51,14 +45,66 @@ export function Contact() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-      toast("Message sent!", {
+    try {
+      // Validate form data with Zod
+      const validatedData = contactSchema.parse(formData);
+
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(validatedData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to send message");
+      }
+
+      toast.success("Message sent!", {
         description: "Thank you for your message. I'll get back to you soon.",
       });
       setFormData({ name: "", email: "", subject: "", message: "" });
-    }, 1000);
+    } catch (error: any) {
+      if (error.name === "ZodError") {
+        // Show validation errors
+        const firstError = error.errors[0];
+        toast.error("Validation Error", {
+          description: firstError.message,
+        });
+      } else {
+        toast.error("Failed to send message", {
+          description: error.message || "Please try again later.",
+        });
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  // Transform contact info to display format
+  const displayContactInfo = [
+    {
+      icon: Mail,
+      label: "Email",
+      value: contactInfo?.email || "N/A",
+      href: contactInfo?.email ? `mailto:${contactInfo.email}` : null,
+    },
+    {
+      icon: Phone,
+      label: "Phone",
+      value: contactInfo?.phone || "N/A",
+      href: contactInfo?.phone ? `tel:${contactInfo.phone}` : null,
+    },
+    {
+      icon: MapPin,
+      label: "Location",
+      value: contactInfo?.address || "N/A",
+      href: null,
+    },
+  ];
 
   return (
     <section id="contact" className="section-padding bg-accent">
@@ -99,7 +145,7 @@ export function Contact() {
 
             {/* Contact Info */}
             <div className="space-y-6">
-              {contactInfo.map((info, index) => (
+              {displayContactInfo.map((info, index) => (
                 <motion.div
                   key={info.label}
                   initial={{ opacity: 0, y: 20 }}
@@ -134,23 +180,26 @@ export function Contact() {
             <div className="pt-8">
               <h4 className="font-semibold mb-4">Follow Me</h4>
               <div className="flex space-x-4">
-                {socialLinks.map((social, index) => (
-                  <motion.a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`p-3 rounded-lg bg-card border border-border/50 text-muted-foreground transition-all duration-300 ${social.color} hover:shadow-card hover:-translate-y-1`}
-                  >
-                    <social.icon className="h-5 w-5" />
-                  </motion.a>
-                ))}
+                {socialLinks.map((social, index) => {
+                  const Icon = socialIconMap[social.platform] || Github;
+                  return (
+                    <motion.a
+                      key={social.platform}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                      viewport={{ once: true }}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`p-3 rounded-lg bg-card border border-border/50 text-muted-foreground transition-all duration-300 hover:text-primary hover:shadow-card hover:-translate-y-1`}
+                    >
+                      <Icon className="h-5 w-5" />
+                    </motion.a>
+                  );
+                })}
               </div>
             </div>
           </motion.div>

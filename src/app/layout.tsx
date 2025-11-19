@@ -3,8 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
+import { FooterWrapper } from "@/components/footer-wrapper";
 import { Toaster } from "@/components/ui/sonner";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,7 +36,9 @@ export default function RootLayout({
           <Navbar />
           <main className="min-h-screen bg-background">{children}</main>
         </ThemeProvider>
-        <Footer />
+        <Suspense fallback={<div className="h-96" />}>
+          <FooterWrapper />
+        </Suspense>
         <Toaster />
       </body>
     </html>

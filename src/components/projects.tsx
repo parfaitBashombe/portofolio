@@ -1,14 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Github } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-import { projects } from "@/lib/data/projects";
+import { IProject } from "@/lib/types";
 import Link from "next/link";
 import ProjectCard from "./project-card";
 
-export function Projects() {
+interface ProjectsProps {
+  projects: IProject[];
+}
+
+export function Projects({ projects }: ProjectsProps) {
   return (
     <section id="projects" className="section-padding">
       <div className="container-custom">
@@ -32,7 +36,7 @@ export function Projects() {
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
-            <ProjectCard project={project} index={index} key={index} />
+            <ProjectCard project={project} index={index} key={project.id || index} />
           ))}
         </div>
 

@@ -179,7 +179,6 @@ html {
   margin-right: auto;
 }
 
-/* === Prose (Blog content) === */
 .prose {
   color: var(--color-foreground);
 }
@@ -234,4 +233,9 @@ html {
   border-radius: 0.75rem;
   overflow-x: auto;
   margin-bottom: 1.5rem;
+}
+
+
+button{
+  cursor:pointer
 }

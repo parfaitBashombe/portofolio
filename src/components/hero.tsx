@@ -4,7 +4,11 @@ import { motion } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export function Hero() {
+interface HeroProps {
+  resumeUrl?: string;
+}
+
+export function Hero({ resumeUrl }: HeroProps) {
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
@@ -81,14 +85,18 @@ export function Hero() {
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Button>
 
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-2 hover:bg-accent transition-all duration-300"
-            >
-              <Download className="mr-2 h-5 w-5" />
-              Download CV
-            </Button>
+            {resumeUrl && (
+              <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-2 hover:bg-accent transition-all duration-300"
+                >
+                  <Download className="mr-2 h-5 w-5" />
+                  Download CV
+                </Button>
+              </a>
+            )}
           </motion.div>
 
           {/* Scroll indicator */}

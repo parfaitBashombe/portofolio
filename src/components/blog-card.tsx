@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { IPost } from "@/lib/data/blogs";
+import { IPost } from "@/lib/types";
 
 type Props = {
   post: IPost;

@@ -3,7 +3,8 @@ import { ExternalLink, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { IProject } from "@/lib/data/projects";
+import { IProject } from "@/lib/types";
+import ProjectImageCarousel from "./project-image-carousel";
 
 type Props = {
   index: number;
@@ -20,16 +21,16 @@ const ProjectCard = ({ project, index }: Props) => {
       viewport={{ once: true }}
       className="group card-elegant overflow-hidden h-full flex flex-col"
     >
-      {/* Project Image */}
+      {/* Project Image with Carousel */}
       <Link href={`/projects/${project.id}`}>
-        <div className="relative overflow-hidden rounded-lg mb-6 block">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+        <div className="relative mb-6 block">
+          <ProjectImageCarousel
+            mainImage={project.main_image || project.image}
+            additionalImages={project.additional_images || []}
+            title={project.title}
+            className="h-48"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <Badge className="absolute top-3 left-3 bg-primary/90 hover:bg-primary">
+          <Badge className="absolute top-3 left-3 bg-primary/90 hover:bg-primary z-10">
             {project.category}
           </Badge>
         </div>
