@@ -1,10 +1,28 @@
 "use client";
 
-import { quickLinks, socialLinks } from "@/lib/data/social-links";
+import { useState } from "react";
+import { quickLinks } from "@/lib/constants";
 import { motion } from "framer-motion";
-import { Heart } from "lucide-react";
+import { Heart, Github, Linkedin, Twitter, Mail } from "lucide-react";
+import { ISocialLink } from "@/lib/api/social-links";
+import { toast } from "sonner";
 
-export function Footer() {
+// Icon mapping for social links
+const socialIconMap: Record<string, any> = {
+  "GitHub": Github,
+  "LinkedIn": Linkedin,
+  "Twitter": Twitter,
+  "Email": Mail,
+};
+
+interface FooterProps {
+  socialLinks: ISocialLink[];
+}
+
+export function Footer({ socialLinks }: FooterProps) {
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [isSubscribing, setIsSubscribing] = useState(false);
+
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
@@ -14,6 +32,56 @@ export function Footer() {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Client-side validation
+    if (!newsletterEmail.trim()) {
+      toast.error("Email required", {
+        description: "Please enter your email address.",
+      });
+      return;
+    }
+
+    // Basic email format check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(newsletterEmail)) {
+      toast.error("Invalid email", {
+        description: "Please enter a valid email address.",
+      });
+      return;
+    }
+
+    setIsSubscribing(true);
+
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: newsletterEmail }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to subscribe");
+      }
+
+      toast.success("Successfully subscribed!", {
+        description: "You'll receive our latest updates in your inbox.",
+      });
+      setNewsletterEmail("");
+    } catch (error: any) {
+      toast.error("Subscription failed", {
+        description: error.message || "Please try again later.",
+      });
+    } finally {
+      setIsSubscribing(false);
+    }
   };
 
   return (
@@ -39,24 +107,27 @@ export function Footer() {
 
             {/* Social Links */}
             <div className="flex space-x-4 pt-4">
-              {socialLinks.map((social, index) => (
-                <motion.a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`p-2 rounded-lg bg-background border border-border/50 text-muted-foreground transition-all duration-300 ${social.color} hover:shadow-card hover:-translate-y-1`}
-                  aria-label={social.label}
-                >
-                  <social.icon className="h-5 w-5" />
-                </motion.a>
-              ))}
+              {socialLinks.map((social, index) => {
+                const Icon = socialIconMap[social.platform] || Github;
+                return (
+                  <motion.a
+                    key={social.platform}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`p-2 rounded-lg bg-background border border-border/50 text-muted-foreground transition-all duration-300 hover:text-primary hover:shadow-card hover:-translate-y-1`}
+                    aria-label={social.platform}
+                  >
+                    <Icon className="h-5 w-5" />
+                  </motion.a>
+                );
+              })}
             </div>
           </motion.div>
 
@@ -95,16 +166,22 @@ export function Footer() {
             <p className="text-muted-foreground text-sm">
               Get notified about new projects and blog posts.
             </p>
-            <div className="space-y-2">
+            <form onSubmit={handleNewsletterSubmit} className="space-y-2">
               <input
                 type="email"
                 placeholder="Enter your email"
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
                 className="w-full px-3 py-2 text-sm rounded-lg border border-border/50 bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
               />
-              <button className="w-full px-3 py-2 text-sm font-medium text-white bg-accent-foreground rounded-lg hover:shadow-glow transition-all duration-300">
-                Subscribe
+              <button 
+                type="submit"
+                disabled={isSubscribing}
+                className="w-full px-3 py-2 text-sm font-medium text-white bg-accent-foreground rounded-lg hover:shadow-glow transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubscribing ? "Subscribing..." : "Subscribe"}
               </button>
-            </div>
+            </form>
           </motion.div>
         </div>
 

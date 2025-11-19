@@ -3,11 +3,15 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { blogPosts } from "@/lib/data/blogs";
+import { IPost } from "@/lib/types";
 import BlogCard from "./blog-card";
 import Link from "next/link";
 
-export function Blog() {
+interface BlogProps {
+  posts: IPost[];
+}
+
+export function Blog({ posts }: BlogProps) {
   return (
     <section id="blog" className="section-padding">
       <div className="container-custom">
@@ -28,8 +32,8 @@ export function Blog() {
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogPosts.map((post, index) => (
-            <BlogCard post={post} index={index} key={index} />
+          {posts.map((post, index) => (
+            <BlogCard post={post} index={index} key={post.id || index} />
           ))}
         </div>
 
