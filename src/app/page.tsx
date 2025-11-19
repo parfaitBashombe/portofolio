@@ -8,6 +8,10 @@ import { getProjects } from "@/lib/api/projects";
 import { getRecentPosts } from "@/lib/api/blogs";
 import { getContactInfo } from "@/lib/api/contact-info";
 import { getSocialLinks } from "@/lib/api/social-links";
+import {
+  PersonStructuredData,
+  WebsiteStructuredData,
+} from "@/components/structured-data";
 
 export default async function Home() {
   const [skills, projects, posts, contactInfo, socialLinks] = await Promise.all([
@@ -20,6 +24,8 @@ export default async function Home() {
 
   return (
     <>
+      <PersonStructuredData />
+      <WebsiteStructuredData />
       <Hero resumeUrl={contactInfo?.resume_url} />
       <About skills={skills} />
       <Projects projects={projects} />

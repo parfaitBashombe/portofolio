@@ -11,25 +11,40 @@ export type ISocialLink = {
 export const getSocialLinks = cache(async (): Promise<ISocialLink[]> => {
   const supabase = await createClient();
   try {
+    console.log('🔍 Fetching social links from database...');
     const { data, error } = await supabase
       .from('social_links')
       .select('*')
       .order('label', { ascending: true });
 
     if (error) {
-      console.error('Error fetching social links:', error);
+      console.error('❌ Error fetching social links:', error);
       return [];
     }
 
+    if (!data || data.length === 0) {
+      console.warn('⚠️ No social links found in database');
+      return [];
+    }
+
+    console.log(`✅ Fetched ${data.length} social links:`, data.map(l => `${l.label} (${l.href})`).join(', '));
+
     // Map database fields to ISocialLink format
-    return (data || []).map(link => ({
-      id: link.id,
-      platform: link.label, // Map 'label' to 'platform'
-      url: link.href,       // Map 'href' to 'url'
-      icon: link.icon
-    })) as ISocialLink[];
+    // Normalize platform names to match icon mapping (capitalize first letter)
+    return (data || []).map(link => {
+      const platform = link.label;
+      // Capitalize first letter for better matching: 'github' -> 'GitHub'
+      const normalizedPlatform = platform.charAt(0).toUpperCase() + platform.slice(1);
+      
+      return {
+        id: link.id,
+        platform: normalizedPlatform, // Map 'label' to 'platform' with normalization
+        url: link.href,       // Map 'href' to 'url'
+        icon: link.icon
+      };
+    }) as ISocialLink[];
   } catch (error) {
-    console.error('Failed to fetch social links:', error);
+    console.error('❌ Failed to fetch social links:', error);
     return [];
   }
 });
