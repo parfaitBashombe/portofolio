@@ -11,7 +11,6 @@ export type ISkill = {
 export const getSkills = cache(async (): Promise<ISkill[]> => {
   const supabase = await createClient();
   try {
-    console.log('🔍 Fetching skills from database...');
     const { data, error } = await supabase
       .from('skills')
       .select('*')
@@ -27,7 +26,6 @@ export const getSkills = cache(async (): Promise<ISkill[]> => {
       return [];
     }
 
-    console.log(`✅ Fetched ${data.length} skills:`, data.map(s => s.name).join(', '));
 
     // Map database fields to ISkill format
     return (data || []).map(skill => ({

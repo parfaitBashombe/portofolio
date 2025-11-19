@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -19,9 +20,49 @@ export function Hero({ resumeUrl }: HeroProps) {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center section-padding"
+      className="relative min-h-screen flex items-center justify-center section-padding overflow-hidden"
     >
-      <div className="container-custom text-center">
+      {/* Animated Background */}
+      <div className="absolute inset-0 z-0">
+        {/* Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-accent/20" />
+        
+        {/* Lamp/Spotlight Effect */}
+        <motion.div
+          animate={{
+            opacity: [0.3, 0.5, 0.3],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-3xl"
+        />
+        
+        <motion.div
+          animate={{
+            opacity: [0.2, 0.4, 0.2],
+            scale: [1.2, 1, 1.2],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+          className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-accent-foreground/5 rounded-full blur-3xl"
+        />
+
+        {/* Floating Particles */}
+        <Particles />
+
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
+      </div>
+
+      <div className="container-custom text-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -98,36 +139,72 @@ export function Hero({ resumeUrl }: HeroProps) {
               </a>
             )}
           </motion.div>
-
-          {/* Scroll indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5, duration: 0.8 }}
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          >
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="w-6 h-10 border-2 border-muted-foreground rounded-full flex justify-center"
-            >
-              <motion.div
-                animate={{ y: [0, 12, 0] }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="w-1 h-3 bg-gradient-to-b from-primary to-primary-glow rounded-full mt-2"
-              />
-            </motion.div>
-          </motion.div>
         </motion.div>
       </div>
+
+      {/* Scroll indicator - Moved outside container to be relative to section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 0.8 }}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+      >
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="w-6 h-10 border-2 border-muted-foreground rounded-full flex justify-center"
+        >
+          <motion.div
+            animate={{ y: [0, 12, 0] }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="w-1 h-3 bg-gradient-to-b from-primary to-primary-glow rounded-full mt-2"
+          />
+        </motion.div>
+      </motion.div>
     </section>
+  );
+}
+
+function Particles() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  return (
+    <>
+      {[...Array(20)].map((_, i) => (
+        <motion.div
+          key={i}
+          initial={{
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+          }}
+          animate={{
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            opacity: [0, 0.5, 0],
+          }}
+          transition={{
+            duration: Math.random() * 10 + 10,
+            repeat: Infinity,
+            ease: "linear",
+            delay: Math.random() * 5,
+          }}
+          className="absolute w-1 h-1 bg-primary/30 rounded-full"
+        />
+      ))}
+    </>
   );
 }

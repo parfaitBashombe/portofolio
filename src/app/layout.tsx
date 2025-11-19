@@ -89,11 +89,11 @@ export default function RootLayout({
         <ThemeProvider>
           <Navbar />
           <main className="min-h-screen bg-background">{children}</main>
+          <Toaster />
         </ThemeProvider>
         <Suspense fallback={<div className="h-96" />}>
           <FooterWrapper />
         </Suspense>
-        <Toaster />
       </body>
     </html>
   );

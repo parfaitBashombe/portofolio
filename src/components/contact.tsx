@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Github, Linkedin, Twitter, Mail, Phone, MapPin } from "lucide-react";
+import { ZodError } from "zod";
+import { Send, Mail, Phone, MapPin } from "lucide-react";
+import { FaGithub, FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa";
+import { RiTwitterXLine } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,9 +17,12 @@ import { contactSchema } from "@/lib/validators/contact";
 
 // Icon mapping for social links
 const socialIconMap: Record<string, any> = {
-  "GitHub": Github,
-  "LinkedIn": Linkedin,
-  "Twitter": Twitter,
+  "GitHub": FaGithub,
+  "LinkedIn": FaLinkedin,
+  "Twitter": RiTwitterXLine,
+  "X": RiTwitterXLine,
+  "Facebook": FaFacebook,
+  "Instagram": FaInstagram,
   "Email": Mail,
 };
 
@@ -41,20 +47,35 @@ export function Contact({ contactInfo, socialLinks }: ContactProps) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Validate form data using Zod schema
+  const validateForm = () => {
+    const result = contactSchema.safeParse(formData);
+    if (!result.success) {
+      // Show all validation errors using toast
+      const flattened = result.error.flatten().fieldErrors;
+      Object.values(flattened).forEach((messages) => {
+        messages?.forEach((msg) => toast.error(msg));
+      });
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate input before proceeding
+    if (!validateForm()) return;
+
     setIsSubmitting(true);
 
     try {
-      // Validate form data with Zod
-      const validatedData = contactSchema.parse(formData);
-
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(validatedData),
+        body: JSON.stringify(formData),
       });
 
       const result = await response.json();
@@ -68,17 +89,10 @@ export function Contact({ contactInfo, socialLinks }: ContactProps) {
       });
       setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error: any) {
-      if (error.name === "ZodError") {
-        // Show validation errors
-        const firstError = error.errors[0];
-        toast.error("Validation Error", {
-          description: firstError.message,
-        });
-      } else {
-        toast.error("Failed to send message", {
-          description: error.message || "Please try again later.",
-        });
-      }
+      console.error("Contact form error:", error);
+      toast.error("Failed to send message", {
+        description: error.message || "Please try again later.",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -181,7 +195,7 @@ export function Contact({ contactInfo, socialLinks }: ContactProps) {
               <h4 className="font-semibold mb-4">Follow Me</h4>
               <div className="flex space-x-4">
                 {socialLinks.map((social, index) => {
-                  const Icon = socialIconMap[social.platform] || Github;
+                  const Icon = socialIconMap[social.platform] || FaGithub;
                   return (
                     <motion.a
                       key={social.platform}
