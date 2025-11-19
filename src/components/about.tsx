@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ISkill } from "@/lib/api/skills";
 import { Palette } from "lucide-react";
+import { FaNodeJs } from "react-icons/fa";
 import { LuGitBranch, LuMonitorSmartphone } from "react-icons/lu";
 import {
   RiNextjsFill,
@@ -19,6 +20,7 @@ const iconMap: Record<string, any> = {
   "TypeScript": SiTypescript,
   "Tailwind CSS": RiTailwindCssFill,
   "Supabase": RiSupabaseFill,
+  "Node.js": FaNodeJs,
   "Git": LuGitBranch,
   "Responsive Design": LuMonitorSmartphone,
   "UI/UX Design": Palette,

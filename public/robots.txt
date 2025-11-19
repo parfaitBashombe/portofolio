@@ -1,0 +1,9 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Disallow admin/dashboard routes if any
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://portofolio-beryl-psi.vercel.app/sitemap.xml

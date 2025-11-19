@@ -22,6 +22,17 @@ jobs:
       - name: Install dependencies
         run: npm install @supabase/supabase-js
 
+      - name: Ping Production Website
+        run: |
+          echo "🌐 Pinging production website to keep Vercel active..."
+          
+          # Ping main pages
+          curl -f -s -o /dev/null -w "Homepage: %{http_code}\n" https://portofolio-beryl-psi.vercel.app/ || true
+          curl -f -s -o /dev/null -w "Blog: %{http_code}\n" https://portofolio-beryl-psi.vercel.app/blog || true
+          curl -f -s -o /dev/null -w "Projects: %{http_code}\n" https://portofolio-beryl-psi.vercel.app/projects || true
+          
+          echo "✅ Production website pinged successfully"
+
       - name: Ping Supabase Database
         env:
           SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
