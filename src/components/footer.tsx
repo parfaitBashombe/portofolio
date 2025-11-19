@@ -3,15 +3,20 @@
 import { useState } from "react";
 import { quickLinks } from "@/lib/constants";
 import { motion } from "framer-motion";
-import { Heart, Github, Linkedin, Twitter, Mail } from "lucide-react";
+import { Heart, Mail } from "lucide-react";
+import { FaGithub, FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa";
+import { RiTwitterXLine } from "react-icons/ri";
 import { ISocialLink } from "@/lib/api/social-links";
 import { toast } from "sonner";
 
 // Icon mapping for social links
 const socialIconMap: Record<string, any> = {
-  "GitHub": Github,
-  "LinkedIn": Linkedin,
-  "Twitter": Twitter,
+  "GitHub": FaGithub,
+  "LinkedIn": FaLinkedin,
+  "Twitter": RiTwitterXLine,
+  "X": RiTwitterXLine,
+  "Facebook": FaFacebook,
+  "Instagram": FaInstagram,
   "Email": Mail,
 };
 
@@ -108,7 +113,7 @@ export function Footer({ socialLinks }: FooterProps) {
             {/* Social Links */}
             <div className="flex space-x-4 pt-4">
               {socialLinks.map((social, index) => {
-                const Icon = socialIconMap[social.platform] || Github;
+                const Icon = socialIconMap[social.platform] || FaGithub;
                 return (
                   <motion.a
                     key={social.platform}

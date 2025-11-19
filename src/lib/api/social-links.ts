@@ -11,7 +11,6 @@ export type ISocialLink = {
 export const getSocialLinks = cache(async (): Promise<ISocialLink[]> => {
   const supabase = await createClient();
   try {
-    console.log('🔍 Fetching social links from database...');
     const { data, error } = await supabase
       .from('social_links')
       .select('*')
@@ -27,7 +26,6 @@ export const getSocialLinks = cache(async (): Promise<ISocialLink[]> => {
       return [];
     }
 
-    console.log(`✅ Fetched ${data.length} social links:`, data.map(l => `${l.label} (${l.href})`).join(', '));
 
     // Map database fields to ISocialLink format
     // Normalize platform names to match icon mapping (capitalize first letter)

@@ -76,7 +76,7 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16 px-4">
           <motion.div
             onClick={() => handleNavClick("#home")}
-            className="text-xl font-bold text-gradient cursor-pointer"
+            className="text-3xl font-bold text-gradient cursor-pointer"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
