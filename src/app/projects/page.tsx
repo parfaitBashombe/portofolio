@@ -1,6 +1,11 @@
+import dynamic from "next/dynamic";
 import { getProjects, getProjectCategories } from "@/lib/api/projects";
-import { ProjectsClient } from "@/components/projects-client";
 import { Metadata } from "next";
+import { LoadingSkeleton } from "@/components/loading-skeleton";
+
+const ProjectsClient = dynamic(() => import("@/components/projects-client").then(mod => ({ default: mod.ProjectsClient })), {
+  loading: () => <LoadingSkeleton />,
+});
 
 export const metadata: Metadata = {
   title: "Projects",

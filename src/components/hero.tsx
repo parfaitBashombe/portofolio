@@ -38,7 +38,7 @@ export function Hero({ resumeUrl }: HeroProps) {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-3xl"
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-3xl gpu-accelerated"
         />
         
         <motion.div
@@ -52,7 +52,7 @@ export function Hero({ resumeUrl }: HeroProps) {
             ease: "easeInOut",
             delay: 1,
           }}
-          className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-accent-foreground/5 rounded-full blur-3xl"
+          className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-accent-foreground/5 rounded-full blur-3xl gpu-accelerated"
         />
 
         {/* Floating Particles */}
@@ -202,7 +202,7 @@ function Particles() {
             ease: "linear",
             delay: Math.random() * 5,
           }}
-          className="absolute w-1 h-1 bg-primary/30 rounded-full"
+          className="absolute w-1 h-1 bg-primary/30 rounded-full gpu-accelerated"
         />
       ))}
     </>

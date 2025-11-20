@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { ISkill } from "@/lib/api/skills";
 import { Palette } from "lucide-react";
 import { FaNodeJs } from "react-icons/fa";
@@ -61,14 +62,19 @@ export function About({ skills }: AboutProps) {
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
-                className="relative"
+                className="relative w-80 h-80 mx-auto lg:mx-0"
               >
-                <img
-                  src="https://ik.imagekit.io/zzot6yvyh/incognito.jpeg?updatedAt=1756579630119"
+                <Image
+                  src="https://ik.imagekit.io/zzot6yvyh/incognito.jpeg?tr=w-320,h-320,q-80,f-webp"
                   alt="Parfait Bashombe - Profile Photo"
-                  className="w-80 h-80 mx-auto lg:mx-0 rounded-2xl object-cover shadow-card"
+                  width={320}
+                  height={320}
+                  className="rounded-2xl object-cover shadow-card"
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAUABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMEBQb/xAAjEAACAgIBAwUBAAAAAAAAAAABAgADBBEhBRIxIkFRcYGh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/APW85Vy0LW6k4BOuR7zB6jpBpVun3kBhlYz5E6XqRuQqK2NiWOxwPhm1PHEg61kUdk2gGVnRPPr7H/ZlVjk4O1/Jhq1v3D2jqPl4+P/Z"
+                  priority
                 />
-                <div className="absolute inset-0 bg-gradient-primary opacity-10 rounded-2xl"></div>
+                <div className="absolute inset-0 bg-gradient-primary opacity-10 rounded-2xl pointer-events-none"></div>
               </motion.div>
             </div>
 

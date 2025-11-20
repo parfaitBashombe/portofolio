@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, cache } from "react";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -58,16 +59,24 @@ export default function ProjectImageCarousel({
       {/* Main Image Display with Animation */}
       <div className="relative overflow-hidden rounded-lg aspect-video">
         <AnimatePresence mode="wait">
-          <motion.img
+          <motion.div
             key={currentIndex}
-            src={allImages[currentIndex]}
-            alt={`${title} - Image ${currentIndex + 1}`}
-            className="w-full h-full object-cover"
             initial={{ opacity: 0, scale: 1.1 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.3 }}
-          />
+            className="w-full h-full"
+          >
+            <Image
+              src={`${allImages[currentIndex]}${allImages[currentIndex].includes('?') ? '&' : '?'}tr=w-800,h-450,q-80,f-webp`}
+              alt={`${title} - Image ${currentIndex + 1}`}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px"
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAQABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAQDBv/EACMQAAIBAwMEAwAAAAAAAAAAAAECAwAEEQUSITFBUWETInH/xAAWAQEBAQAAAAAAAAAAAAAAAAAEAgP/xAAZEQEBAQADAAAAAAAAAAAAAAABAAIDESH/2gAMAwEAAhEDEQA/APXNCtpbazaOYjcdz7qxvdOjvXVmkdcDHFPlXUl08RoqKowAPFKWo/FKyn5D9rqYg52xBa62nUfh/9k="
+            />
+          </motion.div>
         </AnimatePresence>
 
         {/* Gradient Overlay */}
