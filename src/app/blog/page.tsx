@@ -1,6 +1,11 @@
+import dynamic from "next/dynamic";
 import { getPosts } from "@/lib/api/blogs";
-import { BlogClient } from "@/components/blog-client";
 import { Metadata } from "next";
+import { LoadingSkeleton } from "@/components/loading-skeleton";
+
+const BlogClient = dynamic(() => import("@/components/blog-client").then(mod => ({ default: mod.BlogClient })), {
+  loading: () => <LoadingSkeleton />,
+});
 
 export const metadata: Metadata = {
   title: "Blog",
