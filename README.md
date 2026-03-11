@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Parfait Bashombe
 
-## Getting Started
+Front-End Developer who knows his way around the back end.
 
-First, run the development server:
+I build web experiences that are fast, clean, and easy to use. My focus is on the front end — the part people actually see and interact with — but I'm comfortable across the full stack when the project calls for it. I care about the details: smooth animations, responsive layouts, readable code, and interfaces that just feel right.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This portfolio is where I put my best work. It's built with Next.js, TypeScript, and Tailwind CSS, with Framer Motion handling the animations. The data layer runs on Supabase, the API is built with Express.js, and everything is deployed on Vercel.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## What I work with
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Front End** — Next.js, React, TypeScript, Tailwind CSS, Framer Motion
 
-## Learn More
+**Back End** — Node.js, Express.js, REST APIs, Supabase
 
-To learn more about Next.js, take a look at the following resources:
+**Deployment** — Vercel, Git
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## What I'm about
 
-## Deploy on Vercel
+I started as a front-end developer and that's still where my heart is. I love turning a design into a real, working interface — pixel by pixel, component by component. Over time I picked up back-end skills because understanding the full picture makes me a better front-end developer. I know what's happening on both sides of the request, and that shows in the work.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+I'm always learning, always building, and always looking for projects where good design and solid engineering meet.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Let's work together
+
+If you have a project, an opportunity, or just want to talk about building something — reach out.
+
+- Portfolio: [portofolio-beryl-psi.vercel.app](https://portofolio-beryl-psi.vercel.app)
+- LinkedIn: [www.linkedin.com/in/parfait-bashombe-7b3866316/](https://www.linkedin.com/in/parfait-bashombe-7b3866316/)
+- Email: parfaitbashombe@gmail.com
