@@ -1,77 +1,58 @@
-import { MetadataRoute } from 'next';
-import { getRecentPosts } from '@/lib/api/blogs';
-import { getProjects } from '@/lib/api/projects';
+import { MetadataRoute } from "next";
+import { IPost, IProject } from "@/types";
+
+const BASE_URL = "https://portofolio-beryl-psi.vercel.app";
+
+async function fetchApi<T>(path: string, fallback: T): Promise<T> {
+  try {
+    const res = await fetch(`${BASE_URL}${path}`);
+    if (!res.ok) return fallback;
+    return res.json();
+  } catch {
+    return fallback;
+  }
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://portofolio-beryl-psi.vercel.app';
+  const [posts, projects] = await Promise.all([
+    fetchApi<IPost[]>("/api/posts", []),
+    fetchApi<IProject[]>("/api/projects", []),
+  ]);
 
-  try {
-    // Fetch all posts and projects
-    const [posts, projects] = await Promise.all([
-      getRecentPosts(),
-      getProjects(),
-    ]);
+  const blogPosts = posts.map((post) => ({
+    url: `${BASE_URL}/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  }));
 
-    // Generate blog post URLs
-    const blogPosts = posts.map((post) => ({
-      url: `${baseUrl}/blog/${post.slug}`,
-      lastModified: new Date(post.date),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    }));
+  const projectPages = projects.map((project) => ({
+    url: `${BASE_URL}/projects/${project.id}`,
+    lastModified: new Date(project.date),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
 
-    // Generate project URLs
-    const projectPages = projects.map((project) => ({
-      url: `${baseUrl}/projects/${project.id}`,
-      lastModified: new Date(project.date),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    }));
-
-    return [
-      {
-        url: baseUrl,
-        lastModified: new Date(),
-        changeFrequency: 'daily',
-        priority: 1,
-      },
-      {
-        url: `${baseUrl}/blog`,
-        lastModified: new Date(),
-        changeFrequency: 'daily',
-        priority: 0.9,
-      },
-      {
-        url: `${baseUrl}/projects`,
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.9,
-      },
-      ...blogPosts,
-      ...projectPages,
-    ];
-  } catch (error) {
-    console.error('Error generating sitemap:', error);
-    // Return basic sitemap if data fetching fails
-    return [
-      {
-        url: baseUrl,
-        lastModified: new Date(),
-        changeFrequency: 'daily',
-        priority: 1,
-      },
-      {
-        url: `${baseUrl}/blog`,
-        lastModified: new Date(),
-        changeFrequency: 'daily',
-        priority: 0.9,
-      },
-      {
-        url: `${baseUrl}/projects`,
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.9,
-      },
-    ];
-  }
+  return [
+    {
+      url: BASE_URL,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 1,
+    },
+    {
+      url: `${BASE_URL}/blog`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/projects`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    ...blogPosts,
+    ...projectPages,
+  ];
 }
