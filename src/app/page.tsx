@@ -1,45 +1,39 @@
-import dynamic from "next/dynamic";
 import { Hero } from "@/components/hero";
-import { getSkills } from "@/lib/api/skills";
-import { getProjects } from "@/lib/api/projects";
-import { getRecentPosts } from "@/lib/api/blogs";
-import { getContactInfo } from "@/lib/api/contact-info";
-import { getSocialLinks } from "@/lib/api/social-links";
+import { About } from "@/components/about";
+import { Projects } from "@/components/projects/projects";
+import { Blog } from "@/components/posts/blog";
+import { Contact } from "@/components/contact";
 import {
   PersonStructuredData,
   WebsiteStructuredData,
 } from "@/components/structured-data";
-import { LoadingSkeleton } from "@/components/loading-skeleton";
+import { IContactInfo, IPost, IProject, ISkill, ISocialLink } from "@/types";
 
-// Dynamic imports for below-the-fold components
-const About = dynamic(() => import("@/components/about").then(mod => ({ default: mod.About })), {
-  loading: () => <LoadingSkeleton />,
-  ssr: true,
-});
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
-const Projects = dynamic(() => import("@/components/projects").then(mod => ({ default: mod.Projects })), {
-  loading: () => <LoadingSkeleton />,
-  ssr: true,
-});
+async function fetchApi<T>(path: string, fallback: T): Promise<T> {
+  try {
+    const res = await fetch(`${BASE_URL}${path}`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return fallback;
+    return res.json();
+  } catch {
+    return fallback;
+  }
+}
 
-const Blog = dynamic(() => import("@/components/blog").then(mod => ({ default: mod.Blog })), {
-  loading: () => <LoadingSkeleton />,
-  ssr: true,
-});
+const Home = async () => {
+  const [skills, projects, posts, contactResponse, socialLinks] =
+    await Promise.all([
+      fetchApi<ISkill[]>("/api/skills", []),
+      fetchApi<IProject[]>("/api/projects", []),
+      fetchApi<IPost[]>("/api/posts?limit=3", []),
+      fetchApi<{ data: IContactInfo | null }>("/api/contact", { data: null }),
+      fetchApi<ISocialLink[]>("/api/social-links", []),
+    ]);
 
-const Contact = dynamic(() => import("@/components/contact").then(mod => ({ default: mod.Contact })), {
-  loading: () => <LoadingSkeleton />,
-  ssr: true,
-});
-
-export default async function Home() {
-  const [skills, projects, posts, contactInfo, socialLinks] = await Promise.all([
-    getSkills(),
-    getProjects(),
-    getRecentPosts(),
-    getContactInfo(),
-    getSocialLinks(),
-  ]);
+  const contactInfo = contactResponse?.data ?? null;
 
   return (
     <>
@@ -52,4 +46,6 @@ export default async function Home() {
       <Contact contactInfo={contactInfo} socialLinks={socialLinks} />
     </>
   );
-}
+};
+
+export default Home;

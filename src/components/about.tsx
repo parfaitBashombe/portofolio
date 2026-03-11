@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { ISkill } from "@/lib/api/skills";
 import { Palette } from "lucide-react";
 import { FaNodeJs } from "react-icons/fa";
 import { LuGitBranch, LuMonitorSmartphone } from "react-icons/lu";
@@ -13,16 +12,17 @@ import {
   RiTailwindCssFill,
 } from "react-icons/ri";
 import { SiTypescript } from "react-icons/si";
+import { ISkill } from "@/types";
 
 // Icon mapping
 const iconMap: Record<string, any> = {
-  "React": RiReactjsFill,
+  React: RiReactjsFill,
   "Next.js": RiNextjsFill,
-  "TypeScript": SiTypescript,
+  TypeScript: SiTypescript,
   "Tailwind CSS": RiTailwindCssFill,
-  "Supabase": RiSupabaseFill,
+  Supabase: RiSupabaseFill,
   "Node.js": FaNodeJs,
-  "Git": LuGitBranch,
+  Git: LuGitBranch,
   "Responsive Design": LuMonitorSmartphone,
   "UI/UX Design": Palette,
 };

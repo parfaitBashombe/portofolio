@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ZodError } from "zod";
 import { Send, Mail, Phone, MapPin } from "lucide-react";
 import { FaGithub, FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa";
 import { RiTwitterXLine } from "react-icons/ri";
@@ -11,19 +10,18 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { IContactInfo } from "@/lib/api/contact-info";
-import { ISocialLink } from "@/lib/api/social-links";
+import { IContactInfo, ISocialLink } from "@/types";
 import { contactSchema } from "@/lib/validators/contact";
 
 // Icon mapping for social links
 const socialIconMap: Record<string, any> = {
-  "GitHub": FaGithub,
-  "LinkedIn": FaLinkedin,
-  "Twitter": RiTwitterXLine,
-  "X": RiTwitterXLine,
-  "Facebook": FaFacebook,
-  "Instagram": FaInstagram,
-  "Email": Mail,
+  GitHub: FaGithub,
+  LinkedIn: FaLinkedin,
+  Twitter: RiTwitterXLine,
+  X: RiTwitterXLine,
+  Facebook: FaFacebook,
+  Instagram: FaInstagram,
+  Email: Mail,
 };
 
 interface ContactProps {
@@ -31,7 +29,7 @@ interface ContactProps {
   socialLinks: ISocialLink[];
 }
 
-export function Contact({ contactInfo, socialLinks }: ContactProps) {
+export const Contact = ({ contactInfo, socialLinks }: ContactProps) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -41,17 +39,15 @@ export function Contact({ contactInfo, socialLinks }: ContactProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Validate form data using Zod schema
   const validateForm = () => {
     const result = contactSchema.safeParse(formData);
     if (!result.success) {
-      // Show all validation errors using toast
       const flattened = result.error.flatten().fieldErrors;
       Object.values(flattened).forEach((messages) => {
         messages?.forEach((msg) => toast.error(msg));
@@ -63,8 +59,7 @@ export function Contact({ contactInfo, socialLinks }: ContactProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Validate input before proceeding
+
     if (!validateForm()) return;
 
     setIsSubmitting(true);
@@ -98,7 +93,6 @@ export function Contact({ contactInfo, socialLinks }: ContactProps) {
     }
   };
 
-  // Transform contact info to display format
   const displayContactInfo = [
     {
       icon: Mail,
@@ -308,4 +302,4 @@ export function Contact({ contactInfo, socialLinks }: ContactProps) {
       </div>
     </section>
   );
-}
+};

@@ -1,11 +1,6 @@
-import dynamic from "next/dynamic";
-import { getProjects, getProjectCategories } from "@/lib/api/projects";
+import { ProjectsClient } from "@/components/projects/projects-client";
+import { IProject } from "@/types";
 import { Metadata } from "next";
-import { LoadingSkeleton } from "@/components/loading-skeleton";
-
-const ProjectsClient = dynamic(() => import("@/components/projects-client").then(mod => ({ default: mod.ProjectsClient })), {
-  loading: () => <LoadingSkeleton />,
-});
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -13,25 +8,40 @@ export const metadata: Metadata = {
     "Portfolio of web applications and projects built with React, Next.js, TypeScript, Tailwind CSS, and modern web technologies. Explore my work.",
   openGraph: {
     title: "Projects - Parfait Bashombe",
-    description:
-      "Portfolio of web development projects and applications",
+    description: "Portfolio of web development projects and applications",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Projects - Parfait Bashombe",
-    description:
-      "Portfolio of web development projects and applications",
+    description: "Portfolio of web development projects and applications",
   },
 };
 
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
 export default async function Projects() {
-  const [projects, categories] = await Promise.all([
-    getProjects(),
-    getProjectCategories(),
-  ]);
+  let projects: IProject[] = [];
+  let categories: string[] = [];
 
-  const allCategories = ["All", ...categories];
+  try {
+    const [projectsRes, categoriesRes] = await Promise.all([
+      fetch(`${BASE_URL}/api/projects`, { next: { revalidate: 60 } }),
+      fetch(`${BASE_URL}/api/projects/categories`, {
+        next: { revalidate: 60 },
+      }),
+    ]);
 
-  return <ProjectsClient initialProjects={projects} categories={allCategories} />;
+    if (projectsRes.ok) projects = await projectsRes.json();
+    if (categoriesRes.ok) categories = await categoriesRes.json();
+  } catch (err) {
+    console.error(err);
+  }
+
+  return (
+    <ProjectsClient
+      initialProjects={projects}
+      categories={["All", ...categories]}
+    />
+  );
 }

@@ -5,7 +5,7 @@ import { Calendar, Clock, ArrowLeft, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
-import { IPost } from "@/lib/types";
+import { IPost } from "@/types";
 
 interface BlogPostClientProps {
   post: IPost;
@@ -86,7 +86,7 @@ export function BlogPostClient({ post }: BlogPostClientProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="prose prose-lg dark:prose-invert max-w-none"
-          dangerouslySetInnerHTML={{ __html: post.content || '' }}
+          dangerouslySetInnerHTML={{ __html: post.content || "" }}
         />
       </article>
     </main>

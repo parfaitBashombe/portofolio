@@ -1,17 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { IPost } from "@/lib/types";
 import BlogCard from "./blog-card";
 import Link from "next/link";
+import { IPost } from "@/types";
 
 interface BlogProps {
   posts: IPost[];
 }
 
-export function Blog({ posts }: BlogProps) {
+export const Blog = ({ posts }: BlogProps) => {
   return (
     <section id="blog" className="section-padding">
       <div className="container-custom">
@@ -31,33 +31,46 @@ export function Blog({ posts }: BlogProps) {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map((post, index) => (
-            <BlogCard post={post} index={index} key={post.id || index} />
-          ))}
-        </div>
-
-        {/* View All Posts */}
-        <Link href="/blog">
+        {posts.length > 0 ? (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {posts.map((post, index) => (
+              <BlogCard post={post} index={index} key={post.id ?? index} />
+            ))}
+          </div>
+        ) : (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mt-12"
+            className="flex flex-col items-center justify-center py-20 gap-4 text-muted-foreground"
           >
-            <Button
-              variant="outline"
-              size="lg"
-              className="group cursor-pointer"
-            >
-              View All Posts
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <BookOpen className="h-12 w-12 opacity-40" />
+            <p className="text-lg font-medium">No posts published yet</p>
+            <p className="text-sm opacity-70">Check back soon!</p>
           </motion.div>
-        </Link>
+        )}
 
-        {/* Coming Soon Message */}
+        {posts.length > 0 && (
+          <Link href="/blog">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="text-center mt-12"
+            >
+              <Button
+                variant="outline"
+                size="lg"
+                className="group cursor-pointer"
+              >
+                View All Posts
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </motion.div>
+          </Link>
+        )}
 
         <motion.div
           initial={{ opacity: 0 }}
@@ -75,4 +88,4 @@ export function Blog({ posts }: BlogProps) {
       </div>
     </section>
   );
-}
+};

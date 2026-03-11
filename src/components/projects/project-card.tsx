@@ -3,8 +3,8 @@ import { ExternalLink, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { IProject } from "@/lib/types";
 import ProjectImageCarousel from "./project-image-carousel";
+import { IProject } from "@/types";
 
 type Props = {
   index: number;

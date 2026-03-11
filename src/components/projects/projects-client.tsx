@@ -4,21 +4,26 @@ import { motion } from "framer-motion";
 import { Github, Filter } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { IProject } from "@/lib/types";
-import ProjectCard from "@/components/project-card";
+import ProjectCard from "@/components/projects/project-card";
+import { IProject } from "@/types";
 
 interface ProjectsClientProps {
   initialProjects: IProject[];
   categories: string[];
 }
 
-export function ProjectsClient({ initialProjects, categories }: ProjectsClientProps) {
+export function ProjectsClient({
+  initialProjects,
+  categories,
+}: ProjectsClientProps) {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const filteredProjects =
     selectedCategory === "All"
       ? initialProjects
-      : initialProjects.filter((project) => project.category === selectedCategory);
+      : initialProjects.filter(
+          (project) => project.category === selectedCategory,
+        );
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -83,7 +88,11 @@ export function ProjectsClient({ initialProjects, categories }: ProjectsClientPr
             ) : (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredProjects.map((project, index) => (
-                  <ProjectCard project={project} index={index} key={project.id} />
+                  <ProjectCard
+                    project={project}
+                    index={index}
+                    key={project.id}
+                  />
                 ))}
               </div>
             )}

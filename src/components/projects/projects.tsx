@@ -4,15 +4,15 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-import { IProject } from "@/lib/types";
 import Link from "next/link";
 import ProjectCard from "./project-card";
+import { IProject } from "@/types";
 
 interface ProjectsProps {
   projects: IProject[];
 }
 
-export function Projects({ projects }: ProjectsProps) {
+export const Projects = ({ projects }: ProjectsProps) => {
   return (
     <section id="projects" className="section-padding">
       <div className="container-custom">
@@ -36,7 +36,11 @@ export function Projects({ projects }: ProjectsProps) {
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
-            <ProjectCard project={project} index={index} key={project.id || index} />
+            <ProjectCard
+              project={project}
+              index={index}
+              key={project.id || index}
+            />
           ))}
         </div>
 
@@ -62,4 +66,4 @@ export function Projects({ projects }: ProjectsProps) {
       </div>
     </section>
   );
-}
+};
