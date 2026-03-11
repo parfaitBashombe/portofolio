@@ -3,9 +3,9 @@
 import { motion } from "framer-motion";
 import { ArrowRight, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { IPost } from "@/lib/types";
 import BlogCard from "./blog-card";
 import Link from "next/link";
+import { IPost } from "@/types";
 
 interface BlogProps {
   posts: IPost[];

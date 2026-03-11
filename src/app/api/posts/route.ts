@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { IPost } from "@/lib/types";
 import { createServerClient } from "@/lib/supabase/create-server-client";
+import { IPost } from "@/types";
 
-function mapToIPost(post: Record<string, unknown>): IPost {
+const mapToIPost = (post: Record<string, unknown>): IPost => {
   return {
     id: post.id as string,
     title: post.title as string,
@@ -14,7 +14,7 @@ function mapToIPost(post: Record<string, unknown>): IPost {
     slug: post.slug as string,
     tags: (post.tags as string[]) || [],
   };
-}
+};
 
 export const GET = async (request: NextRequest) => {
   const { searchParams } = new URL(request.url);

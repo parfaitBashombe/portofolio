@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { IPost } from "@/lib/types";
 import { createServerClient } from "@/lib/supabase/create-server-client";
+import { IPost } from "@/types";
 
 export const GET = async (
   _request: NextRequest,

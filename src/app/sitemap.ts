@@ -1,9 +1,8 @@
-import { MetadataRoute } from "next";
 import { IPost, IProject } from "@/types";
 
 const BASE_URL = "https://portofolio-beryl-psi.vercel.app";
 
-async function fetchApi<T>(path: string, fallback: T): Promise<T> {
+const fetchApi = async <T>(path: string, fallback: T): Promise<T> => {
   try {
     const res = await fetch(`${BASE_URL}${path}`);
     if (!res.ok) return fallback;
@@ -11,9 +10,23 @@ async function fetchApi<T>(path: string, fallback: T): Promise<T> {
   } catch {
     return fallback;
   }
-}
+};
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+type SitemapEntry = {
+  url: string;
+  lastModified: Date;
+  changeFrequency:
+    | "always"
+    | "hourly"
+    | "daily"
+    | "weekly"
+    | "monthly"
+    | "yearly"
+    | "never";
+  priority: number;
+};
+
+const sitemap = async (): Promise<SitemapEntry[]> => {
   const [posts, projects] = await Promise.all([
     fetchApi<IPost[]>("/api/posts", []),
     fetchApi<IProject[]>("/api/projects", []),
@@ -55,4 +68,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...blogPosts,
     ...projectPages,
   ];
-}
+};
+
+export default sitemap;

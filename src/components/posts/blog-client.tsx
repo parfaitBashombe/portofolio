@@ -6,9 +6,9 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { IPost } from "@/lib/types";
 import Link from "next/link";
 import { toast } from "sonner";
+import { IPost } from "@/types";
 
 interface BlogClientProps {
   initialPosts: IPost[];
@@ -32,7 +32,7 @@ export function BlogClient({ initialPosts, categories }: BlogClientProps) {
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Client-side validation
     if (!newsletterEmail.trim()) {
       toast.error("Email required", {
@@ -192,7 +192,7 @@ export function BlogClient({ initialPosts, categories }: BlogClientProps) {
                                     month: "short",
                                     day: "numeric",
                                     year: "numeric",
-                                  }
+                                  },
                                 )}
                               </span>
                               <span className="flex items-center">
@@ -225,7 +225,10 @@ export function BlogClient({ initialPosts, categories }: BlogClientProps) {
                 Get the latest articles and insights delivered directly to your
                 inbox. No spam, unsubscribe anytime.
               </p>
-              <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <form
+                onSubmit={handleNewsletterSubmit}
+                className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+              >
                 <Input
                   type="email"
                   placeholder="your.email@example.com"
@@ -233,7 +236,11 @@ export function BlogClient({ initialPosts, categories }: BlogClientProps) {
                   value={newsletterEmail}
                   onChange={(e) => setNewsletterEmail(e.target.value)}
                 />
-                <Button type="submit" disabled={isSubscribing} className="bg-accent-foreground hover:shadow-glow">
+                <Button
+                  type="submit"
+                  disabled={isSubscribing}
+                  className="bg-accent-foreground hover:shadow-glow"
+                >
                   {isSubscribing ? "Subscribing..." : "Subscribe"}
                 </Button>
               </form>

@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-import { IProject } from "@/lib/types";
 import Link from "next/link";
 import ProjectCard from "./project-card";
+import { IProject } from "@/types";
 
 interface ProjectsProps {
   projects: IProject[];
