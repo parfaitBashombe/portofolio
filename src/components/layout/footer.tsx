@@ -6,25 +6,25 @@ import { motion } from "framer-motion";
 import { Heart, Mail } from "lucide-react";
 import { FaGithub, FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa";
 import { RiTwitterXLine } from "react-icons/ri";
-import { ISocialLink } from "@/lib/api/social-links";
 import { toast } from "sonner";
+import { ISocialLink } from "@/types";
 
 // Icon mapping for social links
 const socialIconMap: Record<string, any> = {
-  "GitHub": FaGithub,
-  "LinkedIn": FaLinkedin,
-  "Twitter": RiTwitterXLine,
-  "X": RiTwitterXLine,
-  "Facebook": FaFacebook,
-  "Instagram": FaInstagram,
-  "Email": Mail,
+  GitHub: FaGithub,
+  LinkedIn: FaLinkedin,
+  Twitter: RiTwitterXLine,
+  X: RiTwitterXLine,
+  Facebook: FaFacebook,
+  Instagram: FaInstagram,
+  Email: Mail,
 };
 
 interface FooterProps {
   socialLinks: ISocialLink[];
 }
 
-export function Footer({ socialLinks }: FooterProps) {
+const Footer = ({ socialLinks }: FooterProps) => {
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [isSubscribing, setIsSubscribing] = useState(false);
 
@@ -41,7 +41,7 @@ export function Footer({ socialLinks }: FooterProps) {
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Client-side validation
     if (!newsletterEmail.trim()) {
       toast.error("Email required", {
@@ -179,7 +179,7 @@ export function Footer({ socialLinks }: FooterProps) {
                 onChange={(e) => setNewsletterEmail(e.target.value)}
                 className="w-full px-3 py-2 text-sm rounded-lg border border-border/50 bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
               />
-              <button 
+              <button
                 type="submit"
                 disabled={isSubscribing}
                 className="w-full px-3 py-2 text-sm font-medium text-white bg-accent-foreground rounded-lg hover:shadow-glow transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -221,4 +221,6 @@ export function Footer({ socialLinks }: FooterProps) {
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;

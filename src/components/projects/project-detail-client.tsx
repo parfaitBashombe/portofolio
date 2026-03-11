@@ -5,14 +5,14 @@ import { ArrowLeft, Github, ExternalLink, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
-import { IProject } from "@/lib/types";
-import ProjectImageCarousel from "@/components/project-image-carousel";
+import ProjectImageCarousel from "@/components/projects/project-image-carousel";
+import { IProject } from "@/types";
 
 interface ProjectDetailClientProps {
   project: IProject;
 }
 
-export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
+export const ProjectDetailClient = ({ project }: ProjectDetailClientProps) => {
   const router = useRouter();
 
   return (
@@ -65,11 +65,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
           {/* Action Buttons */}
           <div className="flex flex-wrap gap-4">
             <Button size="lg" asChild>
-              <a
-                href={project.live}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href={project.live} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="mr-2 h-5 w-5" />
                 View Live Demo
               </a>
@@ -124,9 +120,11 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
           className="prose prose-lg dark:prose-invert max-w-none"
-          dangerouslySetInnerHTML={{ __html: project.longDescription || project.longdescription || '' }}
+          dangerouslySetInnerHTML={{
+            __html: project.longDescription || project.longdescription || "",
+          }}
         />
       </article>
     </main>
   );
-}
+};

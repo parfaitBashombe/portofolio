@@ -1,11 +1,6 @@
-import dynamic from "next/dynamic";
-import { getPosts } from "@/lib/api/blogs";
+import { BlogClient } from "@/components/posts/blog-client";
+import { IPost } from "@/types";
 import { Metadata } from "next";
-import { LoadingSkeleton } from "@/components/loading-skeleton";
-
-const BlogClient = dynamic(() => import("@/components/blog-client").then(mod => ({ default: mod.BlogClient })), {
-  loading: () => <LoadingSkeleton />,
-});
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -20,14 +15,27 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Blog - Parfait Bashombe",
-    description:
-      "Technical articles and web development insights",
+    description: "Technical articles and web development insights",
   },
 };
 
-export default async function Blog() {
-  const posts = await getPosts();
-  const categories = ["All", ...new Set(posts.map((blog) => blog.category))];
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
+const Blog = async () => {
+  let posts: IPost[] = [];
+
+  try {
+    const res = await fetch(`${BASE_URL}/api/posts`, {
+      next: { revalidate: 60 },
+    });
+    if (res.ok) posts = await res.json();
+  } catch (error) {
+    console.error(error);
+  }
+
+  const categories = ["All", ...new Set(posts.map((post) => post.category))];
 
   return <BlogClient initialPosts={posts} categories={categories} />;
-}
+};
+
+export default Blog;

@@ -2,7 +2,7 @@
 
 import { siteMetadata } from "@/lib/metadata";
 
-export function PersonStructuredData() {
+export const PersonStructuredData = () => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -10,10 +10,7 @@ export function PersonStructuredData() {
     jobTitle: "Front-End & Website Developer",
     url: siteMetadata.url,
     email: siteMetadata.author.email,
-    sameAs: [
-      siteMetadata.author.github,
-      siteMetadata.author.linkedin,
-    ],
+    sameAs: [siteMetadata.author.github, siteMetadata.author.linkedin],
     knowsAbout: siteMetadata.keywords,
   };
 
@@ -23,9 +20,9 @@ export function PersonStructuredData() {
       dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
     />
   );
-}
+};
 
-export function WebsiteStructuredData() {
+export const WebsiteStructuredData = () => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -44,4 +41,4 @@ export function WebsiteStructuredData() {
       dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
     />
   );
-}
+};

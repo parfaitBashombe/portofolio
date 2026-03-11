@@ -1,8 +1,23 @@
-import { getProjectById } from "@/lib/api/projects";
-import { ProjectDetailClient } from "@/components/project-detail-client";
+import { ProjectDetailClient } from "@/components/projects/project-detail-client";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { siteMetadata } from "@/lib/metadata";
+import { IProject } from "@/types";
+
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
+async function getProjectById(id: string): Promise<IProject | null> {
+  try {
+    const res = await fetch(`${BASE_URL}/api/projects/${id}`, {
+      next: { revalidate: 60 },
+    });
+    if (res.status === 404) return null;
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
+}
 
 interface ProjectProps {
   params: Promise<{ id: string }>;
@@ -15,9 +30,7 @@ export async function generateMetadata({
   const project = await getProjectById(id);
 
   if (!project) {
-    return {
-      title: "Project Not Found",
-    };
+    return { title: "Project Not Found" };
   }
 
   return {
@@ -54,9 +67,7 @@ export default async function Project({ params }: ProjectProps) {
   const { id } = await params;
   const project = await getProjectById(id);
 
-  if (!project) {
-    return notFound();
-  }
+  if (!project) return notFound();
 
   return <ProjectDetailClient project={project} />;
 }

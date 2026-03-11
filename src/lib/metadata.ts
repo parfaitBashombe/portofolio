@@ -1,13 +1,14 @@
 export const siteMetadata = {
   title: "Parfait Bashombe - Front-End & Website Developer",
-  description: "Portfolio showcasing modern web applications built with React, Next.js, and TypeScript. Explore projects, read technical blog posts, and get in touch.",
+  description:
+    "Portfolio showcasing modern web applications built with React, Next.js, and TypeScript. Explore projects, read technical blog posts, and get in touch.",
   url: "https://portofolio-beryl-psi.vercel.app",
   author: {
     name: "Parfait Bashombe",
-    email: "parfaitbashombe@gmail.com", 
-    github: "https://github.com/parfaitBashombe", 
-    linkedin: "https://www.linkedin.com/in/parfait-bashombe-7b3866316/", 
-    twitter: "@parfaitbashombe", 
+    email: "parfaitbashombe@gmail.com",
+    github: "https://github.com/parfaitBashombe",
+    linkedin: "https://www.linkedin.com/in/parfait-bashombe-7b3866316/",
+    twitter: "@parfaitbashombe",
   },
   keywords: [
     "Front-End Developer",
@@ -23,10 +24,10 @@ export const siteMetadata = {
     "Responsive Design",
     "Modern Web Development",
   ],
-  ogImage: "/og-image.png", 
+  ogImage: "/og-image.png",
 };
 
-export function generatePageMetadata({
+export const generatePageMetadata = ({
   title,
   description,
   keywords,
@@ -38,7 +39,7 @@ export function generatePageMetadata({
   keywords?: string[];
   ogImage?: string;
   noIndex?: boolean;
-}) {
+}) => {
   return {
     title,
     description: description || siteMetadata.description,
@@ -58,4 +59,4 @@ export function generatePageMetadata({
       ? { index: false, follow: false }
       : { index: true, follow: true },
   };
-}
+};
