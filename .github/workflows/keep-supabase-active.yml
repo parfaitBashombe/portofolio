@@ -1,38 +1,32 @@
 name: Keep Supabase Active
-
 on:
   schedule:
     # Run every day at 6 AM UTC (adjust as needed)
-    - cron: '0 6 * * *'
+    - cron: "0 6 * * *"
   workflow_dispatch: # Allow manual trigger
-
 jobs:
   ping-supabase:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-
+          node-version: "20"
       - name: Install dependencies
         run: npm install @supabase/supabase-js
-
       - name: Ping Production Website
         run: |
-          echo "🌐 Pinging production website to keep Vercel active..."
-          
+          echo "Pinging production website to keep Vercel active..."
+
           # Ping main pages
           curl -f -s -o /dev/null -w "Homepage: %{http_code}\n" https://portofolio-beryl-psi.vercel.app/ || true
           curl -f -s -o /dev/null -w "Blog: %{http_code}\n" https://portofolio-beryl-psi.vercel.app/blog || true
           curl -f -s -o /dev/null -w "Projects: %{http_code}\n" https://portofolio-beryl-psi.vercel.app/projects || true
-          
-          echo "✅ Production website pinged successfully"
 
+          echo "Production website pinged successfully"
       - name: Ping Supabase Database
         env:
           SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
@@ -40,54 +34,42 @@ jobs:
         run: |
           node -e "
           const { createClient } = require('@supabase/supabase-js');
-          
+
           async function keepActive() {
             const supabase = createClient(
               process.env.SUPABASE_URL,
               process.env.SUPABASE_KEY
             );
             
-            console.log('🚀 Pinging Supabase to keep it active...');
+            console.log('Pinging Supabase to keep it active...');
             
-            // Perform multiple lightweight queries to different tables
             const queries = [
               supabase.from('projects').select('id', { count: 'exact', head: true }),
-              supabase.from('posts').select('id', { count: 'exact', head: true }),
-              supabase.from('skills').select('id', { count: 'exact', head: true }),
-              supabase.from('contacts').select('id', { count: 'exact', head: true }),
-              supabase.from('social_links').select('id', { count: 'exact', head: true }),
-              supabase.from('newsletter_subscribers').select('id', { count: 'exact', head: true }),
-              supabase.from('contact_messages').select('id', { count: 'exact', head: true })
+              supabase.from('posts').select('id', { count: 'exact', head: true })
             ];
             
             const results = await Promise.all(queries);
             
-            console.log('✅ Successfully pinged all tables');
-            console.log('📊 Counts:', {
+            console.log('Successfully pinged all tables');
+            console.log('Counts:', {
               projects: results[0].count,
-              posts: results[1].count,
-              skills: results[2].count,
-              contacts: results[3].count,
-              social_links: results[4].count,
-              newsletter: results[5].count,
-              messages: results[6].count
+              posts: results[1].count
             });
             
             return results;
           }
-          
+
           keepActive()
             .then(() => {
-              console.log('✨ Supabase keep-alive completed successfully');
+              console.log('Supabase keep-alive completed successfully');
               process.exit(0);
             })
             .catch((error) => {
-              console.error('❌ Error:', error.message);
+              console.error('Error:', error.message);
               process.exit(1);
             });
           "
-
       - name: Send notification
         if: failure()
         run: |
-          echo "⚠️ Keep-alive check failed. Please check your Supabase configuration."
+          echo "Keep-alive check failed. Please check your Supabase configuration."
