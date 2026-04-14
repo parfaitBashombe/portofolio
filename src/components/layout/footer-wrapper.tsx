@@ -8,7 +8,7 @@ export const FooterWrapper = async () => {
 
   try {
     const res = await fetch(`${BASE_URL}/api/social-links`, {
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
     if (res.ok) socialLinks = await res.json();
   } catch (err) {

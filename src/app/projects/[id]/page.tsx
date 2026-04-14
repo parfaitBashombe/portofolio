@@ -9,7 +9,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 async function getProjectById(id: string): Promise<IProject | null> {
   try {
     const res = await fetch(`${BASE_URL}/api/projects/${id}`, {
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
     if (res.status === 404) return null;
     if (!res.ok) return null;

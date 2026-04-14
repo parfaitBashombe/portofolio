@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from "react";
 
-export function useReducedMotion(): boolean {
+export const useReducedMotion = (): boolean => {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -23,4 +24,4 @@ export function useReducedMotion(): boolean {
   }, []);
 
   return prefersReducedMotion;
-}
+};

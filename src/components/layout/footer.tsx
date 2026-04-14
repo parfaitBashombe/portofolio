@@ -1,6 +1,11 @@
 "use client";
 
 import { useState } from "react";
+
+import { ComponentType } from "react";
+import { LucideProps } from "lucide-react";
+import { IconBaseProps } from "react-icons";
+
 import { quickLinks } from "@/lib/constants";
 import { motion } from "framer-motion";
 import { Heart, Mail } from "lucide-react";
@@ -9,8 +14,10 @@ import { RiTwitterXLine } from "react-icons/ri";
 import { toast } from "sonner";
 import { ISocialLink } from "@/types";
 
-// Icon mapping for social links
-const socialIconMap: Record<string, any> = {
+const socialIconMap: Record<
+  string,
+  ComponentType<LucideProps | IconBaseProps>
+> = {
   GitHub: FaGithub,
   LinkedIn: FaLinkedin,
   Twitter: RiTwitterXLine,
@@ -80,9 +87,11 @@ const Footer = ({ socialLinks }: FooterProps) => {
         description: "You'll receive our latest updates in your inbox.",
       });
       setNewsletterEmail("");
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Please try again later.";
       toast.error("Subscription failed", {
-        description: error.message || "Please try again later.",
+        description: message,
       });
     } finally {
       setIsSubscribing(false);

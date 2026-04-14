@@ -14,7 +14,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 async function fetchApi<T>(path: string, fallback: T): Promise<T> {
   try {
     const res = await fetch(`${BASE_URL}${path}`, {
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
     if (!res.ok) return fallback;
     return res.json();

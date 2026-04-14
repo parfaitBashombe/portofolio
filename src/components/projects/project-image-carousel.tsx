@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, cache } from "react";
-import Image from "next/image";
+import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -12,22 +11,16 @@ interface ProjectImageCarouselProps {
   className?: string;
 }
 
-// Cache the image URLs processing
-const processImageUrls = cache((mainImage: string, additionalImages: string[]) => {
-  return [mainImage, ...additionalImages].filter(Boolean);
-});
-
-export default function ProjectImageCarousel({
+const ProjectImageCarousel = ({
   mainImage,
   additionalImages = [],
   title,
   className = "",
-}: ProjectImageCarouselProps) {
+}: ProjectImageCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  
-  // Use cached processing
-  const allImages = processImageUrls(mainImage, additionalImages);
-  
+
+  const allImages = [mainImage, ...additionalImages].filter(Boolean);
+
   if (allImages.length === 0) {
     return (
       <div className="w-full h-64 bg-muted flex items-center justify-center rounded-lg">
@@ -56,7 +49,6 @@ export default function ProjectImageCarousel({
 
   return (
     <div className={`relative group w-full ${className}`}>
-      {/* Main Image Display with Animation */}
       <div className="relative overflow-hidden rounded-lg aspect-video">
         <AnimatePresence mode="wait">
           <motion.div
@@ -67,22 +59,16 @@ export default function ProjectImageCarousel({
             transition={{ duration: 0.3 }}
             className="w-full h-full"
           >
-            <Image
-              src={`${allImages[currentIndex]}${allImages[currentIndex].includes('?') ? '&' : '?'}tr=w-800,h-450,q-80,f-webp`}
+            <img
+              src={allImages[currentIndex].split("?")[0]}
               alt={`${title} - Image ${currentIndex + 1}`}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px"
-              placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAQABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAQDBv/EACMQAAIBAwMEAwAAAAAAAAAAAAECAwAEEQUSITFBUWETInH/xAAWAQEBAQAAAAAAAAAAAAAAAAAEAgP/xAAZEQEBAQADAAAAAAAAAAAAAAABAAIDESH/2gAMAwEAAhEDEQA/APXNCtpbazaOYjcdz7qxvdOjvXVmkdcDHFPlXUl08RoqKowAPFKWo/FKyn5D9rqYg52xBa62nUfh/9k="
+              className="object-cover w-full h-full"
             />
           </motion.div>
         </AnimatePresence>
 
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
-        {/* Navigation Arrows - Only show if multiple images */}
         {allImages.length > 1 && (
           <>
             <motion.button
@@ -112,7 +98,6 @@ export default function ProjectImageCarousel({
           </>
         )}
 
-        {/* Image Counter */}
         {allImages.length > 1 && (
           <motion.div
             className="absolute top-3 right-3 bg-black/70 text-white text-sm px-3 py-1.5 rounded-full backdrop-blur-sm font-medium"
@@ -124,7 +109,6 @@ export default function ProjectImageCarousel({
           </motion.div>
         )}
 
-        {/* Main Image Badge */}
         {currentIndex === 0 && allImages.length > 1 && (
           <motion.div
             className="absolute top-3 left-3 bg-primary text-primary-foreground text-xs px-3 py-1.5 rounded-full font-semibold shadow-lg"
@@ -137,7 +121,6 @@ export default function ProjectImageCarousel({
         )}
       </div>
 
-      {/* Thumbnail Dots Indicator */}
       {allImages.length > 1 && (
         <motion.div
           className="flex justify-center gap-2 mt-4"
@@ -161,4 +144,6 @@ export default function ProjectImageCarousel({
       )}
     </div>
   );
-}
+};
+
+export default ProjectImageCarousel;

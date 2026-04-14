@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "../theme-toggle";
 import { usePathname, useRouter } from "next/navigation";
@@ -15,9 +15,10 @@ const navItems = [
   { name: "Contact", href: "#contact" },
 ];
 
-export function Navbar() {
+export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -30,6 +31,13 @@ export function Navbar() {
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? "hidden" : "auto";
   }, [isMobileMenuOpen]);
+
+  const handleRefresh = useCallback(() => {
+    if (isRefreshing) return;
+    setIsRefreshing(true);
+    router.refresh();
+    setTimeout(() => setIsRefreshing(false), 1000);
+  }, [isRefreshing, router]);
 
   const scrollToSection = (section: string) => {
     requestAnimationFrame(() => {
@@ -83,6 +91,7 @@ export function Navbar() {
             Portfolio
           </motion.div>
 
+          {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item, index) => (
               <motion.button
@@ -97,10 +106,53 @@ export function Navbar() {
                 {item.name}
               </motion.button>
             ))}
+
+            {/* Reload Button — desktop */}
+            <motion.button
+              onClick={handleRefresh}
+              title="Reload page content"
+              className="text-muted-foreground hover:text-foreground transition-colors duration-200 cursor-pointer"
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <motion.span
+                animate={isRefreshing ? { rotate: 360 } : { rotate: 0 }}
+                transition={
+                  isRefreshing
+                    ? { duration: 0.7, ease: "linear", repeat: Infinity }
+                    : { duration: 0 }
+                }
+                style={{ display: "inline-flex" }}
+              >
+                <RefreshCw className="h-4 w-4" />
+              </motion.span>
+            </motion.button>
+
             <ThemeToggle />
           </div>
 
-          <div className="md:hidden flex items-center space-x-2">
+          {/* Mobile Controls */}
+          <div className="md:hidden flex items-center space-x-1">
+            {/* Reload Button — mobile */}
+            <motion.button
+              onClick={handleRefresh}
+              title="Reload page content"
+              className="h-10 w-10 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+              whileTap={{ scale: 0.9 }}
+            >
+              <motion.span
+                animate={isRefreshing ? { rotate: 360 } : { rotate: 0 }}
+                transition={
+                  isRefreshing
+                    ? { duration: 0.7, ease: "linear", repeat: Infinity }
+                    : { duration: 0 }
+                }
+                style={{ display: "inline-flex" }}
+              >
+                <RefreshCw className="h-4 w-4" />
+              </motion.span>
+            </motion.button>
+
             <ThemeToggle />
             <Button
               variant="ghost"
@@ -125,12 +177,12 @@ export function Navbar() {
             exit={{ opacity: 0 }}
           >
             <div
-              className="absolute inset-0 bg-black/30 h-[100vh]"
+              className="absolute inset-0 bg-black/30 h-screen"
               onClick={() => setIsMobileMenuOpen(false)}
             />
 
             <motion.div
-              className="relative w-3/4 bg-background h-[100vh] px-6 py-8 space-y-6"
+              className="relative w-3/4 bg-background h-screen px-6 py-8 space-y-6"
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
@@ -151,4 +203,4 @@ export function Navbar() {
       </nav>
     </motion.header>
   );
-}
+};
