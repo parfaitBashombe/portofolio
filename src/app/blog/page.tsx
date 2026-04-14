@@ -26,7 +26,7 @@ const Blog = async () => {
 
   try {
     const res = await fetch(`${BASE_URL}/api/posts`, {
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
     if (res.ok) posts = await res.json();
   } catch (error) {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { contactSchema } from "@/lib/validators/contact";
 import { createServerClient } from "@/lib/supabase/create-server-client";

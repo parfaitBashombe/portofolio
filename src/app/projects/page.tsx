@@ -26,9 +26,9 @@ export default async function Projects() {
 
   try {
     const [projectsRes, categoriesRes] = await Promise.all([
-      fetch(`${BASE_URL}/api/projects`, { next: { revalidate: 60 } }),
+      fetch(`${BASE_URL}/api/projects`, { cache: "no-store" }),
       fetch(`${BASE_URL}/api/projects/categories`, {
-        next: { revalidate: 60 },
+        cache: "no-store",
       }),
     ]);
 

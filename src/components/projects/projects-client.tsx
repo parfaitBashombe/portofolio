@@ -12,10 +12,10 @@ interface ProjectsClientProps {
   categories: string[];
 }
 
-export function ProjectsClient({
+export const ProjectsClient = ({
   initialProjects,
   categories,
-}: ProjectsClientProps) {
+}: ProjectsClientProps) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const filteredProjects =
@@ -120,4 +120,4 @@ export function ProjectsClient({
       </main>
     </div>
   );
-}
+};

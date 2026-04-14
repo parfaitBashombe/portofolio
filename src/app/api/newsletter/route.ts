@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { newsletterSchema } from "@/lib/validators/newsletter";
 import { createClient } from "@/lib/supabase/server";
@@ -5,15 +6,15 @@ import { createClient } from "@/lib/supabase/server";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    
+
     // Validate the request body
     const validatedData = newsletterSchema.parse(body);
-    
+
     // Create Supabase client
     const supabase = await createClient();
-    
+
     // Check if email already exists
-    const { data: existing, error: checkError } = await supabase
+    const { data: existing } = await supabase
       .from("newsletter_subscribers")
       .select("id")
       .eq("email", validatedData.email)
@@ -22,7 +23,7 @@ export async function POST(request: NextRequest) {
     if (existing) {
       return NextResponse.json(
         { error: "This email is already subscribed!" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -41,26 +42,26 @@ export async function POST(request: NextRequest) {
       console.error("Supabase error:", error);
       return NextResponse.json(
         { error: "Failed to subscribe. Please try again." },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     return NextResponse.json(
       { message: "Successfully subscribed to newsletter!", data },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error: any) {
     if (error.name === "ZodError") {
       return NextResponse.json(
         { error: "Invalid email address", issues: error.errors },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     console.error("Newsletter subscription error:", error);
     return NextResponse.json(
       { error: "An unexpected error occurred" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
