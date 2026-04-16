@@ -3,7 +3,7 @@ import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { themeAtom, toggleThemeAtom } from "@/lib/stores/theme";
 
-export function ThemeToggle() {
+export const ThemeToggle = () => {
   const [theme] = useAtom(themeAtom);
   const [, toggleTheme] = useAtom(toggleThemeAtom);
 
@@ -28,4 +28,4 @@ export function ThemeToggle() {
       <span className="sr-only">Toggle theme</span>
     </Button>
   );
-}
+};
