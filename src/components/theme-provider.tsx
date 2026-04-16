@@ -8,7 +8,7 @@ interface ThemeProviderProps {
   children: React.ReactNode;
 }
 
-export function ThemeProvider({ children }: ThemeProviderProps) {
+export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [theme] = useAtom(themeAtom);
 
   useEffect(() => {
@@ -19,4 +19,4 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   }, [theme]);
 
   return <>{children}</>;
-}
+};

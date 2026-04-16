@@ -2,6 +2,9 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+
+import { ComponentType, SVGProps } from "react";
+
 import { Palette } from "lucide-react";
 import { FaNodeJs } from "react-icons/fa";
 import { LuGitBranch, LuMonitorSmartphone } from "react-icons/lu";
@@ -14,8 +17,11 @@ import {
 import { SiTypescript } from "react-icons/si";
 import { ISkill } from "@/types";
 
-// Icon mapping
-const iconMap: Record<string, any> = {
+type IconComponent = ComponentType<
+  SVGProps<SVGSVGElement> & { className?: string }
+>;
+
+const iconMap: Record<string, IconComponent> = {
   React: RiReactjsFill,
   "Next.js": RiNextjsFill,
   TypeScript: SiTypescript,

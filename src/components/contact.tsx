@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { ComponentType, SVGProps, useState } from "react";
 import { motion } from "framer-motion";
 import { Send, Mail, Phone, MapPin } from "lucide-react";
 import { FaGithub, FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa";
@@ -13,8 +13,9 @@ import { toast } from "sonner";
 import { IContactInfo, ISocialLink } from "@/types";
 import { contactSchema } from "@/lib/validators/contact";
 
-// Icon mapping for social links
-const socialIconMap: Record<string, any> = {
+type IconType = ComponentType<SVGProps<SVGSVGElement>>;
+
+const socialIconMap: Record<string, IconType> = {
   GitHub: FaGithub,
   LinkedIn: FaLinkedin,
   Twitter: RiTwitterXLine,
@@ -83,10 +84,10 @@ export const Contact = ({ contactInfo, socialLinks }: ContactProps) => {
         description: "Thank you for your message. I'll get back to you soon.",
       });
       setFormData({ name: "", email: "", subject: "", message: "" });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Contact form error:", error);
       toast.error("Failed to send message", {
-        description: error.message || "Please try again later.",
+        description: (error as Error).message || "Please try again later.",
       });
     } finally {
       setIsSubmitting(false);
@@ -266,7 +267,7 @@ export const Contact = ({ contactInfo, socialLinks }: ContactProps) => {
                   value={formData.message}
                   onChange={handleInputChange}
                   rows={8}
-                  className="min-h-[150px] transition-all duration-300 focus:ring-2 focus:ring-primary/20 resize-none"
+                  className="min-h-37.5 transition-all duration-300 focus:ring-2 focus:ring-primary/20 resize-none"
                 />
               </div>
 

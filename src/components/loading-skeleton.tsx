@@ -1,4 +1,4 @@
-export function LoadingSkeleton() {
+export const LoadingSkeleton = () => {
   return (
     <div className="section-padding bg-accent">
       <div className="container-custom">
@@ -32,4 +32,4 @@ export function LoadingSkeleton() {
       </div>
     </div>
   );
-}
+};

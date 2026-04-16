@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -9,7 +10,7 @@ interface HeroProps {
   resumeUrl?: string;
 }
 
-export function Hero({ resumeUrl }: HeroProps) {
+export const Hero = ({ resumeUrl }: HeroProps) => {
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
@@ -22,12 +23,9 @@ export function Hero({ resumeUrl }: HeroProps) {
       id="home"
       className="relative min-h-screen flex items-center justify-center section-padding overflow-hidden"
     >
-      {/* Animated Background */}
       <div className="absolute inset-0 z-0">
-        {/* Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-accent/20" />
-        
-        {/* Lamp/Spotlight Effect */}
+        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-accent/20" />
+
         <motion.div
           animate={{
             opacity: [0.3, 0.5, 0.3],
@@ -38,9 +36,9 @@ export function Hero({ resumeUrl }: HeroProps) {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-3xl gpu-accelerated"
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-200 h-200 bg-primary/10 rounded-full blur-3xl gpu-accelerated"
         />
-        
+
         <motion.div
           animate={{
             opacity: [0.2, 0.4, 0.2],
@@ -52,14 +50,12 @@ export function Hero({ resumeUrl }: HeroProps) {
             ease: "easeInOut",
             delay: 1,
           }}
-          className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-accent-foreground/5 rounded-full blur-3xl gpu-accelerated"
+          className="absolute top-1/4 right-1/4 w-150 h-150 bg-accent-foreground/5 rounded-full blur-3xl gpu-accelerated"
         />
 
-        {/* Floating Particles */}
         <Particles />
 
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-size-[100px_100px] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
       </div>
 
       <div className="container-custom text-center relative z-10">
@@ -69,7 +65,6 @@ export function Hero({ resumeUrl }: HeroProps) {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="space-y-6"
         >
-          {/* Greeting */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -79,7 +74,6 @@ export function Hero({ resumeUrl }: HeroProps) {
             Hello, I&apos;m
           </motion.p>
 
-          {/* Name */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -89,7 +83,6 @@ export function Hero({ resumeUrl }: HeroProps) {
             <span className="text-gradient">Parfait Bashombe</span>
           </motion.h1>
 
-          {/* Title */}
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -99,7 +92,6 @@ export function Hero({ resumeUrl }: HeroProps) {
             Front-End & Website Developer
           </motion.h2>
 
-          {/* Tagline */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -110,7 +102,6 @@ export function Hero({ resumeUrl }: HeroProps) {
             technologies. Passionate about clean code and user-centered design.
           </motion.p>
 
-          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -142,7 +133,6 @@ export function Hero({ resumeUrl }: HeroProps) {
         </motion.div>
       </div>
 
-      {/* Scroll indicator - Moved outside container to be relative to section */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -165,46 +155,64 @@ export function Hero({ resumeUrl }: HeroProps) {
               repeat: Infinity,
               ease: "easeInOut",
             }}
-            className="w-1 h-3 bg-gradient-to-b from-primary to-primary-glow rounded-full mt-2"
+            className="w-1 h-3 bg-linear-to-b from-primary to-primary-glow rounded-full mt-2"
           />
         </motion.div>
       </motion.div>
     </section>
   );
-}
+};
 
-function Particles() {
+const Particles = () => {
   const [mounted, setMounted] = useState(false);
+  const [particles, setParticles] = useState<
+    {
+      x: number;
+      y: number;
+      x2: number;
+      y2: number;
+      duration: number;
+      delay: number;
+    }[]
+  >([]);
 
   useEffect(() => {
     setMounted(true);
+
+    const generated = Array.from({ length: 20 }).map(() => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      x2: Math.random() * window.innerWidth,
+      y2: Math.random() * window.innerHeight,
+      duration: Math.random() * 10 + 10,
+      delay: Math.random() * 5,
+    }));
+
+    setParticles(generated);
   }, []);
 
   if (!mounted) return null;
 
   return (
     <>
-      {[...Array(20)].map((_, i) => (
+      {particles.map((p, i) => (
         <motion.div
           key={i}
-          initial={{
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-          }}
+          initial={{ x: p.x, y: p.y }}
           animate={{
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
+            x: p.x2,
+            y: p.y2,
             opacity: [0, 0.5, 0],
           }}
           transition={{
-            duration: Math.random() * 10 + 10,
+            duration: p.duration,
             repeat: Infinity,
             ease: "linear",
-            delay: Math.random() * 5,
+            delay: p.delay,
           }}
           className="absolute w-1 h-1 bg-primary/30 rounded-full gpu-accelerated"
         />
       ))}
     </>
   );
-}
+};
