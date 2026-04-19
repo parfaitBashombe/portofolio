@@ -85,7 +85,7 @@ export function BlogPostClient({ post }: BlogPostClientProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="prose prose-lg dark:prose-invert max-w-none"
+          className="prose prose-lg dark:prose-invert overflow-hidden"
           dangerouslySetInnerHTML={{ __html: post.content || "" }}
         />
       </article>
