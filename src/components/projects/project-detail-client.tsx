@@ -119,7 +119,7 @@ export const ProjectDetailClient = ({ project }: ProjectDetailClientProps) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="prose prose-lg dark:prose-invert max-w-none"
+          className="prose prose-lg dark:prose-invert overflow-hidden"
           dangerouslySetInnerHTML={{
             __html: project.longDescription || project.longdescription || "",
           }}
