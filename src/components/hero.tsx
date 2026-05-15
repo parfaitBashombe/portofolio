@@ -3,14 +3,11 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Download } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DownloadCVButton } from "@/components/cv/download-cv-button";
 
-interface HeroProps {
-  resumeUrl?: string;
-}
-
-export const Hero = ({ resumeUrl }: HeroProps) => {
+export const Hero = () => {
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
@@ -131,18 +128,11 @@ export const Hero = ({ resumeUrl }: HeroProps) => {
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Button>
 
-            {resumeUrl && (
-              <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-2 hover:bg-accent transition-all duration-300"
-                >
-                  <Download className="mr-2 h-5 w-5" />
-                  Download CV
-                </Button>
-              </a>
-            )}
+            <DownloadCVButton
+              variant="outline"
+              size="lg"
+              className="border-2 hover:bg-accent transition-all duration-300"
+            />
           </motion.div>
 
           {/* Stats row */}
