@@ -1,10 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Github, Filter } from "lucide-react";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import ProjectCard from "@/components/projects/project-card";
+import ProjectDetailModal from "@/components/projects/project-detail-modal";
 import { IProject } from "@/types";
 
 interface ProjectsClientProps {
@@ -17,6 +18,7 @@ export const ProjectsClient = ({
   categories,
 }: ProjectsClientProps) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedProject, setSelectedProject] = useState<IProject | null>(null);
 
   const filteredProjects =
     selectedCategory === "All"
@@ -27,23 +29,30 @@ export const ProjectsClient = ({
 
   return (
     <div className="min-h-screen flex flex-col">
+      <ProjectDetailModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
+
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="section-padding bg-gradient-subtle">
+        <section className="section-padding bg-accent">
           <div className="container-custom">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-center max-w-3xl mx-auto"
+              className="text-center mb-0"
             >
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                My Projects
+              <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">
+                My Work
+              </p>
+              <h1 className="text-3xl md:text-4xl font-bold mb-4">
+                All Projects
               </h1>
-              <p className="text-lg text-muted-foreground">
-                A collection of projects showcasing my skills in web
-                development, from full-stack applications to frontend
-                experiences.
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                A collection of projects spanning full-stack applications and
+                front-end craftsmanship
               </p>
             </motion.div>
           </div>
@@ -92,6 +101,7 @@ export const ProjectsClient = ({
                     project={project}
                     index={index}
                     key={project.id}
+                    onView={(p) => setSelectedProject(p)}
                   />
                 ))}
               </div>
@@ -106,7 +116,7 @@ export const ProjectsClient = ({
             >
               <Button variant="outline" size="lg" className="group" asChild>
                 <a
-                  href="https://github.com/johndoe"
+                  href="https://github.com/parfaitBashombe"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

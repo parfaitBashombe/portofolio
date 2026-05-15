@@ -39,7 +39,7 @@ const Home = async () => {
     <>
       <PersonStructuredData />
       <WebsiteStructuredData />
-      <Hero resumeUrl={contactInfo?.resume_url} />
+      <Hero />
       <About skills={skills} />
       <Projects projects={projects} />
       <Blog posts={posts} />

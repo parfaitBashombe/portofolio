@@ -48,103 +48,87 @@ export function About({ skills }: AboutProps) {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
+          <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">Who I Am</p>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">About Me</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Get to know more about my background, skills, and passion for
-            development
+            Fullstack developer with a front-end heart — building from APIs to
+            pixel-perfect interfaces
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Profile Section */}
+        <div className="grid lg:grid-cols-2 gap-10 md:gap-12 items-start">
+          {/* Left — Profile image + Bio */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            className="space-y-6"
+            className="flex flex-col sm:flex-row sm:items-start gap-8"
           >
-            <div className="relative">
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.3 }}
-                className="relative w-80 h-80 mx-auto lg:mx-0"
-              >
-                <Image
-                  src="https://ik.imagekit.io/zzot6yvyh/incognito.jpeg?tr=w-320,h-320,q-80,f-webp"
-                  alt="Parfait Bashombe - Profile Photo"
-                  width={320}
-                  height={320}
-                  className="rounded-2xl object-cover shadow-card"
-                  placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAUABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMEBQb/xAAjEAACAgIBAwUBAAAAAAAAAAABAgADBBEhBRIxIkFRcYGh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/APW85Vy0LW6k4BOuR7zB6jpBpVun3kBhlYz5E6XqRuQqK2NiWOxwPhm1PHEg61kUdk2gGVnRPPr7H/ZlVjk4O1/Jhq1v3D2jqPl4+P/Z"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-primary opacity-10 rounded-2xl pointer-events-none"></div>
-              </motion.div>
-            </div>
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+              className="relative shrink-0 mx-auto sm:mx-0"
+            >
+              <Image
+                src="https://ik.imagekit.io/zzot6yvyh/incognito.jpeg?tr=w-220,h-220,q-80,f-webp"
+                alt="Parfait Bashombe - Profile Photo"
+                width={220}
+                height={220}
+                className="rounded-2xl object-cover shadow-card w-36 h-36 sm:w-48 sm:h-48"
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAUABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMEBQb/xAAjEAACAgIBAwUBAAAAAAAAAAABAgADBBEhBRIxIkFRcYGh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/APW85Vy0LW6k4BOuR7zB6jpBpVun3kBhlYz5E6XqRuQqK2NiWOxwPhm1PHEg61kUdk2gGVnRPPr7H/ZlVjk4O1/Jhq1v3D2jqPl4+P/Z"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-primary opacity-10 rounded-2xl pointer-events-none" />
+            </motion.div>
 
-            <div className="text-center lg:text-left space-y-4">
-              <h3 className="text-2xl font-semibold">
-                Hi, I&apos;m Parfait Bashombe
-              </h3>
+            <div className="space-y-4 text-center sm:text-left">
+              <h3 className="text-2xl font-semibold">Hi, I&apos;m Parfait Bashombe</h3>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
+                Fullstack Developer · Front-End Specialist
+              </span>
               <p className="text-muted-foreground leading-relaxed">
-                I&apos;m a passionate front-end developer with 2+ years of
-                experience creating modern, responsive web applications. I love
-                turning complex problems into simple, beautiful, and intuitive
-                designs.
+                I&apos;m a fullstack developer with a strong specialization in
+                front-end engineering. With 3+ years of experience, I build
+                complete web applications — solid back-end APIs paired with
+                polished, responsive interfaces that users love.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                When I&apos;m not coding, you can find me exploring new
-                technologies, contributing to open-source projects, or sharing
-                knowledge with the developer community.
+                Front-end is where I truly shine: clean architecture, smooth
+                animations, and pixel-perfect design are what I bring to every
+                project.
               </p>
             </div>
           </motion.div>
 
-          {/* Skills Section */}
+          {/* Right — Skills 3-column grid */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
             viewport={{ once: true }}
-            className="space-y-6"
           >
-            <h3 className="text-2xl font-semibold text-center lg:text-left mb-8">
-              Skills & Technologies
-            </h3>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <h3 className="text-2xl font-semibold mb-6">Skills & Technologies</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {skills.map((skill, index) => {
-                const Icon = iconMap[skill.name] || Palette; // Fallback icon
+                const Icon = iconMap[skill.name] || Palette;
                 return (
                   <motion.div
                     key={skill.name}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.2, delay: index * 0.04 }}
                     viewport={{ once: true }}
-                    className="card-elegant group hover:scale-105"
+                    className="group flex items-center gap-2.5 px-3 py-3 rounded-xl bg-card border border-border/60 hover:border-primary/40 hover:bg-primary/5 transition-all duration-200"
                   >
-                    <div className="flex items-center space-x-3 mb-3">
-                      <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                        <Icon className="h-5 w-5 text-primary" />
-                      </div>
-                      <h4 className="font-semibold">{skill.name}</h4>
+                    <div className="p-1.5 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors shrink-0">
+                      <Icon className="h-4 w-4 text-primary" />
                     </div>
-
-                    <div className="w-full bg-muted rounded-full h-2">
-                      <motion.div
-                        className="bg-accent-foreground h-2 rounded-full"
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.proficiency}%` }}
-                        transition={{ duration: 1, delay: index * 0.1 + 0.5 }}
-                        viewport={{ once: true }}
-                      />
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium leading-none truncate">{skill.name}</p>
+                      <p className="text-xs text-muted-foreground mt-1.5 font-mono">{skill.proficiency}%</p>
                     </div>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      {skill.proficiency}%
-                    </p>
                   </motion.div>
                 );
               })}

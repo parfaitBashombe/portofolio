@@ -1,14 +1,52 @@
-# Parfait Bashombe
+# Parfait Bashombe — Portfolio
 
-Front-End Developer who knows his way around the back end.
+Fullstack Developer specialized in Front-End.
 
 I build web experiences that are fast, clean, and easy to use. My focus is on the front end — the part people actually see and interact with — but I'm comfortable across the full stack when the situation calls for it.
 
-This portfolio is where I put my best work. It's built with Next.js, TypeScript, and Tailwind CSS, with Framer Motion handling the animations. The data layer runs on Supabase, and the API is built with Node.js and Express.
+This portfolio is where I put my best work. It's built with Next.js 16, React 19, TypeScript, and Tailwind CSS v4, with Framer Motion handling the animations. The data layer runs on Supabase (PostgreSQL), managed through a separate admin dashboard application.
+
+**Live:** [portofolio-beryl-psi.vercel.app](https://portofolio-beryl-psi.vercel.app)
 
 ---
 
-## What I work with
+## Tech Stack
+
+**Frontend** — Next.js 16, React 19, TypeScript, Tailwind CSS v4, Framer Motion
+
+**Backend / Data** — Supabase (PostgreSQL), server-side data fetching via Next.js route handlers
+
+**Deployment** — Vercel
+
+---
+
+## Architecture
+
+This repository contains the **client (portfolio) app**. The full system has two Next.js applications sharing one Supabase backend:
+
+| App | Description |
+|-----|-------------|
+| `client/` | Public-facing portfolio — the app in this repo |
+| `dashboard/` | Admin dashboard for managing projects and blog posts |
+
+Both apps read from and write to the same Supabase project. The dashboard handles content creation (rich text editor, media uploads, project management), while the portfolio displays that content to visitors.
+
+---
+
+## Features
+
+- Project showcase with image carousels and modal detail views
+- Blog with full-text search, category filtering, and modal reading experience
+- Standalone SEO-friendly detail pages for projects and blog posts
+- Contact form
+- Newsletter subscription
+- Dark / light theme toggle
+- Fully responsive design — mobile drawer navigation, stacked layouts on small screens
+- Smooth animations throughout via Framer Motion
+
+---
+
+## What I Work With
 
 **Front End** — Next.js, React, TypeScript, Tailwind CSS, Framer Motion, CSS, HTML5
 
@@ -17,20 +55,6 @@ This portfolio is where I put my best work. It's built with Next.js, TypeScript,
 **Tools & Deployment** — Git, Vercel, GitHub, npm, Docker basics
 
 **Other** — JWT Authentication, Zod validation, API design, Database design
-
----
-
-## What I'm about
-
-I started as a front-end developer and that's still where my heart is. I love turning a design into a real, working interface — pixel by pixel, component by component. Over time I picked up backend skills because great products need both sides working together seamlessly.
-
-I'm always learning, always building, and always looking for projects where good design and solid engineering meet. I believe in writing clean, maintainable code and creating user experiences that just work.
-
-My recent focus has been on:
-- Building full-stack applications with Next.js
-- Creating RESTful APIs with proper authentication and validation
-- Designing responsive and beautiful UI with modern CSS frameworks
-- Learning DevOps and deployment best practices
 
 ---
 
@@ -50,17 +74,30 @@ A premium streaming discovery platform for finding, saving, and organizing movie
 
 ---
 
-## Let's work together
+## Getting Started
 
-If you have a project, an opportunity, or just want to talk about building something — reach out. I'm always open to collaboration and new challenges.
+```bash
+# Install dependencies
+npm install
 
-- **Portfolio:** [portofolio-beryl-psi.vercel.app](https://portofolio-beryl-psi.vercel.app)
-- **LinkedIn:** [www.linkedin.com/in/parfait-bashombe-7b3866316/](https://www.linkedin.com/in/parfait-bashombe-7b3866316/)
-- **Email:** parfaitbashombe@gmail.com
-- **GitHub:** [github.com/parfaitBashombe](https://github.com/parfaitBashombe)
+# Run development server
+npm run dev
+```
+
+Environment variables (`.env.local`):
+
+```
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+```
 
 ---
 
-## Get In Touch
+## Let's Work Together
 
-Whether it's feedback on my work, collaboration opportunities, or just geeking out about web development — I'd love to hear from you!
+If you have a project, an opportunity, or just want to talk about building something — reach out.
+
+- **Portfolio:** [portofolio-beryl-psi.vercel.app](https://portofolio-beryl-psi.vercel.app)
+- **Email:** parfaitbashombe@gmail.com
+- **GitHub:** [github.com/parfaitBashombe](https://github.com/parfaitBashombe)
+- **LinkedIn:** [linkedin.com/in/parfait-bashombe-7b3866316](https://www.linkedin.com/in/parfait-bashombe-7b3866316/)
