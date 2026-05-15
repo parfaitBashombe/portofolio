@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import ProjectImageCarousel from "./project-image-carousel";
 import { IProject } from "@/types";
@@ -13,107 +12,111 @@ type Props = {
 };
 
 const ProjectCard = ({ project, index, onView }: Props) => {
-  const imageBlock = (
-    <div className="relative mb-6">
+  const imageArea = (
+    <div className="relative overflow-hidden">
       <ProjectImageCarousel
         mainImage={project.main_image || project.image}
         additionalImages={project.additional_images || []}
         title={project.title}
-        className="h-48"
+        className="h-52 group-hover:scale-[1.02] transition-transform duration-500"
       />
-      <Badge className="absolute top-3 left-3 bg-primary/90 hover:bg-primary z-10">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+      <span className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full bg-primary text-primary-foreground text-xs font-semibold tracking-wide shadow-sm">
         {project.category}
-      </Badge>
+      </span>
+      {onView && (
+        <span className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-background/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <ArrowUpRight className="h-3.5 w-3.5 text-primary" />
+        </span>
+      )}
     </div>
-  );
-
-  const titleBlock = (
-    <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
-      {project.title}
-    </h3>
   );
 
   return (
     <motion.div
-      key={project.id}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
+      transition={{ duration: 0.5, delay: index * 0.08 }}
       viewport={{ once: true }}
-      className="group card-elegant overflow-hidden h-full flex flex-col"
+      className="group bg-card border border-border/60 rounded-2xl overflow-hidden flex flex-col hover:border-primary/30 hover:shadow-xl transition-all duration-300"
     >
-      {/* Project Image with Carousel */}
+      {/* Clickable image + title */}
       {onView ? (
         <button
           type="button"
           onClick={() => onView(project)}
           className="block w-full text-left"
         >
-          {imageBlock}
-          {titleBlock}
+          {imageArea}
+          <div className="px-5 pt-4">
+            <h3 className="text-base font-bold leading-snug group-hover:text-primary transition-colors line-clamp-2">
+              {project.title}
+            </h3>
+          </div>
         </button>
       ) : (
         <>
-          <Link href={`/projects/${project.id}`}>
-            <div className="block">{imageBlock}</div>
+          <Link href={`/projects/${project.id}`} className="block">
+            {imageArea}
           </Link>
-          <Link href={`/projects/${project.id}`}>{titleBlock}</Link>
+          <Link href={`/projects/${project.id}`} className="px-5 pt-4 block">
+            <h3 className="text-base font-bold leading-snug hover:text-primary transition-colors line-clamp-2">
+              {project.title}
+            </h3>
+          </Link>
         </>
       )}
 
-      {/* Project Content */}
-      <div className="flex-1 flex flex-col space-y-4 mt-4">
-        <p className="text-muted-foreground text-sm leading-relaxed flex-1">
+      {/* Card body */}
+      <div className="flex-1 flex flex-col px-5 pb-5 pt-2 gap-3">
+        <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 flex-1">
           {project.description}
         </p>
 
-        {/* Technologies */}
-        <div className="flex flex-wrap gap-2">
-          {project.technologies.map((tech) => (
-            <Badge
-              key={tech}
-              variant="secondary"
-              className="text-xs hover:bg-accent transition-colors"
-            >
-              {tech}
-            </Badge>
-          ))}
-        </div>
+        {/* Tech pills */}
+        {project.technologies?.length > 0 && (
+          <div className="flex flex-wrap gap-1.5">
+            {project.technologies.slice(0, 4).map((tech) => (
+              <span
+                key={tech}
+                className="text-xs px-2.5 py-1 rounded-lg bg-primary/10 text-primary font-medium"
+              >
+                {tech}
+              </span>
+            ))}
+            {project.technologies.length > 4 && (
+              <span className="text-xs px-2.5 py-1 rounded-lg bg-muted text-muted-foreground font-medium">
+                +{project.technologies.length - 4}
+              </span>
+            )}
+          </div>
+        )}
 
-        {/* Action Buttons */}
+        {/* Action buttons */}
         {(project.github || project.live) && (
-          <div className="flex gap-3 pt-4">
+          <div className="flex gap-2 pt-3 border-t border-border/50">
             {project.github && (
               <Button
-                variant="outline"
+                variant="ghost"
                 size="sm"
-                className="flex-1 group/btn"
+                className="flex-1 h-8 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-accent"
                 asChild
               >
-                <Link
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Github className="h-4 w-4 mr-2 group-hover/btn:rotate-12 transition-transform" />
+                <Link href={project.github} target="_blank" rel="noopener noreferrer">
+                  <Github className="h-3.5 w-3.5 mr-1.5" />
                   Code
                 </Link>
               </Button>
             )}
-
             {project.live && (
               <Button
                 size="sm"
-                className="flex-1 bg-accent-foreground hover:shadow-glow group/btn"
+                className="flex-1 h-8 text-xs font-medium bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground border border-primary/20 shadow-none"
                 asChild
               >
-                <Link
-                  href={project.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <ExternalLink className="h-4 w-4 mr-2 group-hover/btn:translate-x-1 transition-transform" />
-                  Live Demo
+                <Link href={project.live} target="_blank" rel="noopener noreferrer">
+                  <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
+                  Live
                 </Link>
               </Button>
             )}

@@ -90,16 +90,19 @@ export function BlogClient({ initialPosts, categories }: BlogClientProps) {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="section-padding bg-gradient-subtle">
+        <section className="section-padding bg-accent">
           <div className="container-custom">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-center max-w-3xl mx-auto"
+              className="text-center"
             >
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">Blog</h1>
-              <p className="text-lg text-muted-foreground mb-8">
+              <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">
+                Writing
+              </p>
+              <h1 className="text-3xl md:text-4xl font-bold mb-4">Blog</h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
                 Insights, tutorials, and thoughts about web development,
                 technology, and best practices.
               </p>
@@ -112,7 +115,7 @@ export function BlogClient({ initialPosts, categories }: BlogClientProps) {
                   placeholder="Search articles..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 bg-background"
                 />
               </div>
             </motion.div>
@@ -177,12 +180,15 @@ export function BlogClient({ initialPosts, categories }: BlogClientProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="mt-16 text-center p-8 rounded-lg bg-gradient-subtle border border-border/50"
+              className="mt-16 text-center bg-card border border-border/60 rounded-2xl p-5 sm:p-8"
             >
-              <h3 className="text-2xl font-bold mb-3">
+              <p className="text-xs font-semibold text-primary uppercase tracking-widest mb-3">
+                Stay Updated
+              </p>
+              <h3 className="text-2xl font-bold mb-2">
                 Subscribe to the Newsletter
               </h3>
-              <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
+              <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto leading-relaxed">
                 Get the latest articles and insights delivered directly to your
                 inbox. No spam, unsubscribe anytime.
               </p>

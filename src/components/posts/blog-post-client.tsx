@@ -1,9 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Calendar, Clock, ArrowLeft, Tag } from "lucide-react";
+import { Calendar, Clock, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { IPost } from "@/types";
@@ -18,7 +17,7 @@ export function BlogPostClient({ post }: BlogPostClientProps) {
   return (
     <main className="min-h-screen pb-16">
       {/* Hero Area */}
-      <div className="bg-accent/30 border-b border-border/50 pt-24 pb-12 px-6">
+      <div className="bg-accent/30 border-b border-border/50 pt-20 md:pt-24 pb-10 md:pb-12 px-4 md:px-6">
         <div className="container-custom max-w-3xl">
           {/* Back Button */}
           <motion.div
@@ -44,19 +43,19 @@ export function BlogPostClient({ post }: BlogPostClientProps) {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="flex flex-wrap items-center gap-3 mb-4"
           >
-            <Badge className="bg-primary/10 text-primary hover:bg-primary/20">
+            <span className="px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
               {post.category}
-            </Badge>
-            <span className="flex items-center text-sm text-muted-foreground">
-              <Calendar className="h-3.5 w-3.5 mr-1.5" />
+            </span>
+            <span className="flex items-center gap-1 text-sm text-muted-foreground">
+              <Calendar className="h-3.5 w-3.5" />
               {new Date(post.date).toLocaleDateString("en-US", {
                 month: "long",
                 day: "numeric",
                 year: "numeric",
               })}
             </span>
-            <span className="flex items-center text-sm text-muted-foreground">
-              <Clock className="h-3.5 w-3.5 mr-1.5" />
+            <span className="flex items-center gap-1 text-sm text-muted-foreground">
+              <Clock className="h-3.5 w-3.5" />
               {post.readTime}
             </span>
           </motion.div>
@@ -87,17 +86,15 @@ export function BlogPostClient({ post }: BlogPostClientProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-wrap gap-2 mt-6"
+              className="flex flex-wrap gap-1.5 mt-6"
             >
               {post.tags.map((tag) => (
-                <Badge
+                <span
                   key={tag}
-                  variant="outline"
-                  className="flex items-center gap-1"
+                  className="text-xs px-2.5 py-1 rounded-lg bg-muted text-muted-foreground font-medium"
                 >
-                  <Tag className="h-3 w-3" />
-                  {tag}
-                </Badge>
+                  #{tag}
+                </span>
               ))}
             </motion.div>
           )}
@@ -105,12 +102,12 @@ export function BlogPostClient({ post }: BlogPostClientProps) {
       </div>
 
       {/* Article Content */}
-      <div className="container-custom max-w-3xl px-6 mt-12">
+      <div className="container-custom max-w-3xl px-4 md:px-6 mt-8 md:mt-12">
         <motion.article
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-card border border-border/50 rounded-xl p-8"
+          className="bg-card border border-border/60 rounded-2xl p-5 md:p-8"
         >
           <div
             className="prose prose-lg dark:prose-invert max-w-none overflow-hidden"

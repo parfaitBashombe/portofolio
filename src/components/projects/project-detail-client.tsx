@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { ArrowLeft, Github, ExternalLink, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ProjectImageCarousel from "@/components/projects/project-image-carousel";
@@ -19,7 +18,7 @@ export const ProjectDetailClient = ({ project }: ProjectDetailClientProps) => {
   return (
     <main className="min-h-screen pb-16">
       {/* Hero Area */}
-      <div className="bg-accent/30 border-b border-border/50 pt-24 pb-12 px-6">
+      <div className="bg-accent/30 border-b border-border/50 pt-20 md:pt-24 pb-10 md:pb-12 px-4 md:px-6">
         <div className="container-custom max-w-5xl">
           {/* Back Button */}
           <motion.div
@@ -45,11 +44,11 @@ export const ProjectDetailClient = ({ project }: ProjectDetailClientProps) => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="flex flex-wrap items-center gap-3 mb-4"
           >
-            <Badge className="bg-primary/10 text-primary hover:bg-primary/20">
+            <span className="px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
               {project.category}
-            </Badge>
-            <span className="flex items-center text-sm text-muted-foreground">
-              <Calendar className="h-3.5 w-3.5 mr-1.5" />
+            </span>
+            <span className="flex items-center gap-1 text-sm text-muted-foreground">
+              <Calendar className="h-3.5 w-3.5" />
               {new Date(project.date).toLocaleDateString("en-US", {
                 month: "long",
                 year: "numeric",
@@ -114,7 +113,7 @@ export const ProjectDetailClient = ({ project }: ProjectDetailClientProps) => {
       </div>
 
       {/* Content Area */}
-      <div className="container-custom max-w-5xl px-6 mt-12 space-y-12">
+      <div className="container-custom max-w-5xl px-4 md:px-6 mt-10 md:mt-12 space-y-8 md:space-y-12">
         {/* Image Carousel */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -135,14 +134,19 @@ export const ProjectDetailClient = ({ project }: ProjectDetailClientProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="bg-muted/50 rounded-xl p-6"
+            className="bg-card border border-border/60 rounded-2xl p-6"
           >
-            <h2 className="text-lg font-semibold mb-4">Technologies Used</h2>
-            <div className="flex flex-wrap gap-2">
+            <p className="text-xs font-semibold text-primary uppercase tracking-widest mb-4">
+              Technologies Used
+            </p>
+            <div className="flex flex-wrap gap-1.5">
               {project.technologies.map((tech) => (
-                <Badge key={tech} variant="secondary" className="text-sm">
+                <span
+                  key={tech}
+                  className="text-xs px-2.5 py-1 rounded-lg bg-primary/10 text-primary font-medium"
+                >
                   {tech}
-                </Badge>
+                </span>
               ))}
             </div>
           </motion.div>
@@ -154,7 +158,7 @@ export const ProjectDetailClient = ({ project }: ProjectDetailClientProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="bg-card border border-border/50 rounded-xl p-8"
+            className="bg-card border border-border/60 rounded-2xl p-5 md:p-8"
           >
             <div
               className="prose prose-lg dark:prose-invert max-w-none overflow-hidden"

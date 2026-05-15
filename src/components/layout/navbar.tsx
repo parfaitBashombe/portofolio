@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "../theme-toggle";
+import { DownloadCVButton } from "@/components/cv/download-cv-button";
 import { usePathname, useRouter } from "next/navigation";
 
 const navItems = [
@@ -19,20 +20,31 @@ export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
   const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+
+      if (pathname !== "/") return;
+      const sections = navItems.map((item) => item.href.slice(1));
+      for (const section of [...sections].reverse()) {
+        const el = document.getElementById(section);
+        if (el && window.scrollY >= el.offsetTop - 120) {
+          setActiveSection(section);
+          break;
+        }
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? "hidden" : "auto";
-    return () => {
-      document.body.style.overflow = "auto";
-    };
+    return () => { document.body.style.overflow = "auto"; };
   }, [isMobileMenuOpen]);
 
   const handleRefresh = useCallback(() => {
@@ -45,15 +57,12 @@ export const Navbar = () => {
   const scrollToSection = (section: string) => {
     requestAnimationFrame(() => {
       const element = document.getElementById(section);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
+      if (element) element.scrollIntoView({ behavior: "smooth" });
     });
   };
 
   const handleNavClick = async (href: string) => {
     const section = href.slice(1);
-
     if (pathname === "/") {
       scrollToSection(section);
     } else {
@@ -63,20 +72,25 @@ export const Navbar = () => {
         router.push("/blog");
       } else {
         router.push(`/#${section}`);
-        setTimeout(() => {
-          scrollToSection(section);
-        }, 500);
+        setTimeout(() => scrollToSection(section), 500);
       }
     }
-
     setIsMobileMenuOpen(false);
+  };
+
+  const isActive = (href: string) => {
+    const section = href.slice(1);
+    if (pathname === "/projects" && section === "projects") return true;
+    if (pathname === "/blog" && section === "blog") return true;
+    if (pathname === "/") return activeSection === section;
+    return false;
   };
 
   return (
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-background/80 backdrop-blur-md border-b border-border/50"
+          ? "bg-background/80 backdrop-blur-md border-b border-border/50 shadow-sm"
           : ""
       }`}
       initial={{ y: -100 }}
@@ -99,39 +113,46 @@ export const Navbar = () => {
           </motion.div>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center gap-1">
             {navItems.map((item, index) => (
               <motion.button
                 key={item.name}
                 onClick={() => handleNavClick(item.href)}
-                className="text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium cursor-pointer"
+                className={`relative px-3 py-1.5 rounded-lg text-sm font-medium transition-colors duration-200 cursor-pointer ${
+                  isActive(item.href)
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                }`}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 + 0.3 }}
-                whileHover={{ y: -2 }}
+                transition={{ delay: index * 0.08 + 0.3 }}
               >
                 {item.name}
+                {isActive(item.href) && (
+                  <motion.span
+                    layoutId="active-nav"
+                    className="absolute inset-0 rounded-lg bg-primary/10 -z-10"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
               </motion.button>
             ))}
 
-            {/* Hire Me CTA */}
-            <motion.button
-              onClick={() => handleNavClick("#contact")}
-              className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors cursor-pointer"
+            <div className="w-px h-5 bg-border/60 mx-2" />
+
+            <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: navItems.length * 0.1 + 0.3 }}
-              whileHover={{ y: -2 }}
+              transition={{ delay: navItems.length * 0.08 + 0.3 }}
             >
-              Hire Me
-            </motion.button>
+              <DownloadCVButton size="sm" />
+            </motion.div>
 
-            {/* Reload Button */}
+            {/* Refresh */}
             <motion.button
               onClick={handleRefresh}
               title="Reload page content"
-              className="text-muted-foreground hover:text-foreground transition-colors duration-200 cursor-pointer"
-              whileHover={{ scale: 1.15 }}
+              className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
               whileTap={{ scale: 0.9 }}
             >
               <motion.span
@@ -151,12 +172,11 @@ export const Navbar = () => {
           </div>
 
           {/* Mobile Controls */}
-          <div className="md:hidden flex items-center space-x-1">
-            {/* Reload Button — mobile */}
+          <div className="md:hidden flex items-center gap-1">
             <motion.button
               onClick={handleRefresh}
-              title="Reload page content"
-              className="h-10 w-10 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+              title="Reload"
+              className="h-9 w-9 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
               whileTap={{ scale: 0.9 }}
             >
               <motion.span
@@ -173,11 +193,12 @@ export const Navbar = () => {
             </motion.button>
 
             <ThemeToggle />
+
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="h-10 w-10"
+              className="h-9 w-9"
             >
               {isMobileMenuOpen ? (
                 <X className="h-5 w-5" />
@@ -205,54 +226,51 @@ export const Navbar = () => {
               onClick={() => setIsMobileMenuOpen(false)}
             />
 
-            {/* Drawer Panel — slides from right */}
+            {/* Drawer panel */}
             <motion.div
               className="relative w-72 bg-background h-full flex flex-col shadow-2xl border-l border-border/50"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "tween", duration: 0.3 }}
+              transition={{ type: "tween", duration: 0.28 }}
             >
-              {/* Drawer Header */}
-              <div className="flex items-center justify-between px-6 py-5 border-b border-border/50">
+              {/* Header */}
+              <div className="flex items-center justify-between px-5 py-4 border-b border-border/50">
                 <div className="flex items-center gap-2">
                   <span className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-sm font-bold text-primary">
                     PB
                   </span>
-                  <span className="text-lg font-bold text-gradient">
-                    Parfait B.
-                  </span>
+                  <span className="text-lg font-bold text-gradient">Parfait B.</span>
                 </div>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-1.5 rounded-lg hover:bg-accent transition-colors text-muted-foreground"
+                  className="p-2 rounded-xl hover:bg-accent transition-colors text-muted-foreground"
                   aria-label="Close menu"
                 >
-                  <X className="h-5 w-5" />
+                  <X className="h-4 w-4" />
                 </button>
               </div>
 
-              {/* Nav Items */}
-              <nav className="flex-1 px-4 py-6 space-y-1">
+              {/* Nav items */}
+              <nav className="flex-1 px-3 py-5 flex flex-col gap-1">
                 {navItems.map((item) => (
                   <button
                     key={item.name}
                     onClick={() => handleNavClick(item.href)}
-                    className="block w-full text-left px-3 py-3 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-all duration-200 font-medium"
+                    className={`flex items-center w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+                      isActive(item.href)
+                        ? "bg-primary/10 text-primary"
+                        : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                    }`}
                   >
                     {item.name}
                   </button>
                 ))}
               </nav>
 
-              {/* Hire Me Button */}
-              <div className="px-4 pb-8">
-                <button
-                  onClick={() => handleNavClick("#contact")}
-                  className="w-full py-3 bg-primary text-white rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
-                >
-                  Hire Me
-                </button>
+              {/* Download CV */}
+              <div className="px-4 pb-8 pt-2 border-t border-border/50">
+                <DownloadCVButton className="w-full mt-4" />
               </div>
             </motion.div>
           </motion.div>

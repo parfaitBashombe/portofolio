@@ -36,21 +36,23 @@ export const ProjectsClient = ({
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="section-padding bg-gradient-subtle">
+        <section className="section-padding bg-accent">
           <div className="container-custom">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-center max-w-3xl mx-auto"
+              className="text-center mb-0"
             >
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                My Projects
+              <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">
+                My Work
+              </p>
+              <h1 className="text-3xl md:text-4xl font-bold mb-4">
+                All Projects
               </h1>
-              <p className="text-lg text-muted-foreground">
-                A collection of projects showcasing my skills in web
-                development, from full-stack applications to frontend
-                experiences.
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                A collection of projects spanning full-stack applications and
+                front-end craftsmanship
               </p>
             </motion.div>
           </div>
