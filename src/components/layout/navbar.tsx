@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "../theme-toggle";
@@ -30,6 +30,9 @@ export const Navbar = () => {
 
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? "hidden" : "auto";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, [isMobileMenuOpen]);
 
   const handleRefresh = useCallback(() => {
@@ -82,13 +85,17 @@ export const Navbar = () => {
     >
       <nav className="container-custom">
         <div className="flex items-center justify-between h-16 px-4">
+          {/* Logo */}
           <motion.div
             onClick={() => handleNavClick("#home")}
-            className="text-3xl font-bold text-gradient cursor-pointer"
-            whileHover={{ scale: 1.05 }}
+            className="flex items-center gap-2 cursor-pointer"
+            whileHover={{ scale: 1.03 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
-            Portfolio
+            <span className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-sm font-bold text-primary">
+              PB
+            </span>
+            <span className="text-xl font-bold text-gradient">Parfait B.</span>
           </motion.div>
 
           {/* Desktop Nav */}
@@ -107,7 +114,19 @@ export const Navbar = () => {
               </motion.button>
             ))}
 
-            {/* Reload Button — desktop */}
+            {/* Hire Me CTA */}
+            <motion.button
+              onClick={() => handleNavClick("#contact")}
+              className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors cursor-pointer"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: navItems.length * 0.1 + 0.3 }}
+              whileHover={{ y: -2 }}
+            >
+              Hire Me
+            </motion.button>
+
+            {/* Reload Button */}
             <motion.button
               onClick={handleRefresh}
               title="Reload page content"
@@ -168,39 +187,77 @@ export const Navbar = () => {
             </Button>
           </div>
         </div>
+      </nav>
 
+      {/* Mobile Drawer */}
+      <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            className="fixed inset-0 flex z-50"
+            className="fixed inset-0 flex justify-end z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
           >
-            <div
-              className="absolute inset-0 bg-black/30 h-screen"
+            {/* Backdrop */}
+            <motion.div
+              className="absolute inset-0 bg-black/40 backdrop-blur-sm"
               onClick={() => setIsMobileMenuOpen(false)}
             />
 
+            {/* Drawer Panel — slides from right */}
             <motion.div
-              className="relative w-3/4 bg-background h-screen px-6 py-8 space-y-6"
-              initial={{ x: "-100%" }}
+              className="relative w-72 bg-background h-full flex flex-col shadow-2xl border-l border-border/50"
+              initial={{ x: "100%" }}
               animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
+              exit={{ x: "100%" }}
               transition={{ type: "tween", duration: 0.3 }}
             >
-              {navItems.map((item) => (
+              {/* Drawer Header */}
+              <div className="flex items-center justify-between px-6 py-5 border-b border-border/50">
+                <div className="flex items-center gap-2">
+                  <span className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-sm font-bold text-primary">
+                    PB
+                  </span>
+                  <span className="text-lg font-bold text-gradient">
+                    Parfait B.
+                  </span>
+                </div>
                 <button
-                  key={item.name}
-                  onClick={() => handleNavClick(item.href)}
-                  className="block w-full text-left text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="p-1.5 rounded-lg hover:bg-accent transition-colors text-muted-foreground"
+                  aria-label="Close menu"
                 >
-                  {item.name}
+                  <X className="h-5 w-5" />
                 </button>
-              ))}
+              </div>
+
+              {/* Nav Items */}
+              <nav className="flex-1 px-4 py-6 space-y-1">
+                {navItems.map((item) => (
+                  <button
+                    key={item.name}
+                    onClick={() => handleNavClick(item.href)}
+                    className="block w-full text-left px-3 py-3 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-all duration-200 font-medium"
+                  >
+                    {item.name}
+                  </button>
+                ))}
+              </nav>
+
+              {/* Hire Me Button */}
+              <div className="px-4 pb-8">
+                <button
+                  onClick={() => handleNavClick("#contact")}
+                  className="w-full py-3 bg-primary text-white rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
+                >
+                  Hire Me
+                </button>
+              </div>
             </motion.div>
           </motion.div>
         )}
-      </nav>
+      </AnimatePresence>
     </motion.header>
   );
 };

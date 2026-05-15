@@ -48,10 +48,11 @@ export function About({ skills }: AboutProps) {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
+          <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">Who I Am</p>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">About Me</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Get to know more about my background, skills, and passion for
-            development
+            Fullstack developer with a front-end heart — building from APIs to
+            pixel-perfect interfaces
           </p>
         </motion.div>
 
@@ -88,16 +89,20 @@ export function About({ skills }: AboutProps) {
               <h3 className="text-2xl font-semibold">
                 Hi, I&apos;m Parfait Bashombe
               </h3>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
+                Fullstack Developer · Front-End Specialist
+              </span>
               <p className="text-muted-foreground leading-relaxed">
-                I&apos;m a passionate front-end developer with 2+ years of
-                experience creating modern, responsive web applications. I love
-                turning complex problems into simple, beautiful, and intuitive
-                designs.
+                I&apos;m a fullstack developer with a strong specialization in
+                front-end engineering. With 3+ years of experience, I build
+                complete web applications — solid back-end APIs paired with
+                polished, responsive interfaces that users love.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                When I&apos;m not coding, you can find me exploring new
-                technologies, contributing to open-source projects, or sharing
-                knowledge with the developer community.
+                Front-end is where I truly shine: clean architecture, smooth
+                animations, and pixel-perfect design are what I bring to every
+                project. When I&apos;m not building, I&apos;m exploring new
+                technologies and contributing to the developer community.
               </p>
             </div>
           </motion.div>

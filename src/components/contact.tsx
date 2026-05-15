@@ -125,6 +125,7 @@ export const Contact = ({ contactInfo, socialLinks }: ContactProps) => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
+          <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">Contact</p>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Have a project in mind or want to collaborate? I&apos;d love to hear

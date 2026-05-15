@@ -65,6 +65,19 @@ export const Hero = ({ resumeUrl }: HeroProps) => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="space-y-6"
         >
+          {/* Availability badge */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1, duration: 0.5 }}
+            className="flex justify-center"
+          >
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-sm font-medium text-primary">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              Available for opportunities
+            </span>
+          </motion.div>
+
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -89,7 +102,8 @@ export const Hero = ({ resumeUrl }: HeroProps) => {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="text-2xl md:text-3xl lg:text-4xl font-semibold text-muted-foreground"
           >
-            Front-End & Website Developer
+            Fullstack Developer{" "}
+            <span className="text-gradient">· Front-End Specialist</span>
           </motion.h2>
 
           <motion.p
@@ -98,8 +112,8 @@ export const Hero = ({ resumeUrl }: HeroProps) => {
             transition={{ delay: 0.8, duration: 0.8 }}
             className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
           >
-            I create beautiful, responsive web experiences with modern
-            technologies. Passionate about clean code and user-centered design.
+            I build complete web applications — from robust back-end APIs to
+            polished, pixel-perfect interfaces. Front-end is where I shine.
           </motion.p>
 
           <motion.div
@@ -129,6 +143,25 @@ export const Hero = ({ resumeUrl }: HeroProps) => {
                 </Button>
               </a>
             )}
+          </motion.div>
+
+          {/* Stats row */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.8 }}
+            className="flex flex-wrap justify-center gap-8 pt-6"
+          >
+            {[
+              { value: "3+", label: "Years Experience" },
+              { value: "20+", label: "Projects Built" },
+              { value: "8+", label: "Technologies" },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center">
+                <p className="text-2xl font-bold text-gradient">{stat.value}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">{stat.label}</p>
+              </div>
+            ))}
           </motion.div>
         </motion.div>
       </div>

@@ -9,9 +9,30 @@ import { IProject } from "@/types";
 type Props = {
   index: number;
   project: IProject;
+  onView?: (project: IProject) => void;
 };
 
-const ProjectCard = ({ project, index }: Props) => {
+const ProjectCard = ({ project, index, onView }: Props) => {
+  const imageBlock = (
+    <div className="relative mb-6">
+      <ProjectImageCarousel
+        mainImage={project.main_image || project.image}
+        additionalImages={project.additional_images || []}
+        title={project.title}
+        className="h-48"
+      />
+      <Badge className="absolute top-3 left-3 bg-primary/90 hover:bg-primary z-10">
+        {project.category}
+      </Badge>
+    </div>
+  );
+
+  const titleBlock = (
+    <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
+      {project.title}
+    </h3>
+  );
+
   return (
     <motion.div
       key={project.id}
@@ -22,28 +43,26 @@ const ProjectCard = ({ project, index }: Props) => {
       className="group card-elegant overflow-hidden h-full flex flex-col"
     >
       {/* Project Image with Carousel */}
-      <Link href={`/projects/${project.id}`}>
-        <div className="relative mb-6 block">
-          <ProjectImageCarousel
-            mainImage={project.main_image || project.image}
-            additionalImages={project.additional_images || []}
-            title={project.title}
-            className="h-48"
-          />
-          <Badge className="absolute top-3 left-3 bg-primary/90 hover:bg-primary z-10">
-            {project.category}
-          </Badge>
-        </div>
-      </Link>
+      {onView ? (
+        <button
+          type="button"
+          onClick={() => onView(project)}
+          className="block w-full text-left"
+        >
+          {imageBlock}
+          {titleBlock}
+        </button>
+      ) : (
+        <>
+          <Link href={`/projects/${project.id}`}>
+            <div className="block">{imageBlock}</div>
+          </Link>
+          <Link href={`/projects/${project.id}`}>{titleBlock}</Link>
+        </>
+      )}
 
       {/* Project Content */}
-      <div className="flex-1 flex flex-col space-y-4">
-        <Link href={`/projects/${project.id}`}>
-          <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
-            {project.title}
-          </h3>
-        </Link>
-
+      <div className="flex-1 flex flex-col space-y-4 mt-4">
         <p className="text-muted-foreground text-sm leading-relaxed flex-1">
           {project.description}
         </p>
@@ -62,34 +81,44 @@ const ProjectCard = ({ project, index }: Props) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-3 pt-4">
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex-1 group/btn"
-            asChild
-          >
-            <Link
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Github className="h-4 w-4 mr-2 group-hover/btn:rotate-12 transition-transform" />
-              Code
-            </Link>
-          </Button>
+        {(project.github || project.live) && (
+          <div className="flex gap-3 pt-4">
+            {project.github && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex-1 group/btn"
+                asChild
+              >
+                <Link
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Github className="h-4 w-4 mr-2 group-hover/btn:rotate-12 transition-transform" />
+                  Code
+                </Link>
+              </Button>
+            )}
 
-          <Button
-            size="sm"
-            className="flex-1 bg-accent-foreground hover:shadow-glow group/btn"
-            asChild
-          >
-            <Link href={project.live} target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="h-4 w-4 mr-2 group-hover/btn:translate-x-1 transition-transform" />
-              Live Demo
-            </Link>
-          </Button>
-        </div>
+            {project.live && (
+              <Button
+                size="sm"
+                className="flex-1 bg-accent-foreground hover:shadow-glow group/btn"
+                asChild
+              >
+                <Link
+                  href={project.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLink className="h-4 w-4 mr-2 group-hover/btn:translate-x-1 transition-transform" />
+                  Live Demo
+                </Link>
+              </Button>
+            )}
+          </div>
+        )}
       </div>
     </motion.div>
   );

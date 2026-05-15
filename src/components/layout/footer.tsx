@@ -101,7 +101,7 @@ const Footer = ({ socialLinks }: FooterProps) => {
   return (
     <footer className="bg-card border-t border-border/50">
       <div className="container-custom px-4 py-12">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-8 gap-x-8">
           {/* Brand Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -114,9 +114,9 @@ const Footer = ({ socialLinks }: FooterProps) => {
               Parfait Bashombe
             </h3>
             <p className="text-muted-foreground leading-relaxed max-w-md">
-              Front-End & Website Developer passionate about creating beautiful,
-              functional web experiences. Let&apos;s build something amazing
-              together.
+              Fullstack Developer specialized in Front-End. I craft complete web
+              experiences — from robust APIs to polished interfaces. Let&apos;s
+              build something amazing together.
             </p>
 
             {/* Social Links */}
@@ -180,7 +180,7 @@ const Footer = ({ socialLinks }: FooterProps) => {
             <p className="text-muted-foreground text-sm">
               Get notified about new projects and blog posts.
             </p>
-            <form onSubmit={handleNewsletterSubmit} className="space-y-2">
+            <form onSubmit={handleNewsletterSubmit} className="flex flex-col gap-2">
               <input
                 type="email"
                 placeholder="Enter your email"
@@ -207,7 +207,7 @@ const Footer = ({ socialLinks }: FooterProps) => {
           viewport={{ once: true }}
           className="border-t border-border/50 mt-12 pt-8"
         >
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 text-sm text-muted-foreground">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground text-center md:text-left">
             <div className="flex items-center space-x-1">
               <span>
                 © {new Date().getFullYear()} Parfait Bashombe. Made with

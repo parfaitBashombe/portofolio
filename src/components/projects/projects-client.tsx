@@ -1,10 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Github, Filter } from "lucide-react";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import ProjectCard from "@/components/projects/project-card";
+import ProjectDetailModal from "@/components/projects/project-detail-modal";
 import { IProject } from "@/types";
 
 interface ProjectsClientProps {
@@ -17,6 +18,7 @@ export const ProjectsClient = ({
   categories,
 }: ProjectsClientProps) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedProject, setSelectedProject] = useState<IProject | null>(null);
 
   const filteredProjects =
     selectedCategory === "All"
@@ -27,6 +29,11 @@ export const ProjectsClient = ({
 
   return (
     <div className="min-h-screen flex flex-col">
+      <ProjectDetailModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
+
       <main className="flex-1">
         {/* Hero Section */}
         <section className="section-padding bg-gradient-subtle">
@@ -92,6 +99,7 @@ export const ProjectsClient = ({
                     project={project}
                     index={index}
                     key={project.id}
+                    onView={(p) => setSelectedProject(p)}
                   />
                 ))}
               </div>
@@ -106,7 +114,7 @@ export const ProjectsClient = ({
             >
               <Button variant="outline" size="lg" className="group" asChild>
                 <a
-                  href="https://github.com/johndoe"
+                  href="https://github.com/parfaitBashombe"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -1,11 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 import Link from "next/link";
 import ProjectCard from "./project-card";
+import ProjectDetailModal from "./project-detail-modal";
 import { IProject } from "@/types";
 
 interface ProjectsProps {
@@ -13,8 +14,15 @@ interface ProjectsProps {
 }
 
 export const Projects = ({ projects }: ProjectsProps) => {
+  const [selectedProject, setSelectedProject] = useState<IProject | null>(null);
+
   return (
     <section id="projects" className="section-padding">
+      <ProjectDetailModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
+
       <div className="container-custom">
         {/* Header */}
         <motion.div
@@ -24,12 +32,13 @@ export const Projects = ({ projects }: ProjectsProps) => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
+          <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">My Work</p>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Featured Projects
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Here are some of my recent projects that showcase my skills and
-            passion for development
+            A selection of projects spanning full-stack applications and
+            front-end craftsmanship
           </p>
         </motion.div>
 
@@ -40,6 +49,7 @@ export const Projects = ({ projects }: ProjectsProps) => {
               project={project}
               index={index}
               key={project.id || index}
+              onView={(p) => setSelectedProject(p)}
             />
           ))}
         </div>
