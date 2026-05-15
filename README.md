@@ -98,6 +98,6 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 If you have a project, an opportunity, or just want to talk about building something — reach out.
 
 - **Portfolio:** [portofolio-beryl-psi.vercel.app](https://portofolio-beryl-psi.vercel.app)
-- **Email:** ntavigwabashombe@gmail.com
+- **Email:** parfaitbashombe@gmail.com
 - **GitHub:** [github.com/parfaitBashombe](https://github.com/parfaitBashombe)
 - **LinkedIn:** [linkedin.com/in/parfait-bashombe-7b3866316](https://www.linkedin.com/in/parfait-bashombe-7b3866316/)
