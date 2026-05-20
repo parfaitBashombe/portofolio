@@ -215,6 +215,13 @@ html {
 
 .prose {
   color: var(--color-foreground);
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
 }
 .prose h2 {
   font-size: 1.875rem;

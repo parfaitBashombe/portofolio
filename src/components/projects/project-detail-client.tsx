@@ -16,7 +16,7 @@ export const ProjectDetailClient = ({ project }: ProjectDetailClientProps) => {
   const router = useRouter();
 
   return (
-    <main className="min-h-screen pb-16">
+    <main className="min-h-screen pb-16 overflow-x-hidden">
       {/* Hero Area */}
       <div className="bg-accent/30 border-b border-border/50 pt-20 md:pt-24 pb-10 md:pb-12 px-4 md:px-6">
         <div className="container-custom max-w-5xl">
