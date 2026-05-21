@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { siteMetadata } from "@/lib/metadata";
 import { IPost } from "@/types";
+import { highlightHtml } from "@/lib/highlight-html";
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
@@ -66,7 +67,8 @@ const BlogPost = async ({ params }: BlogPostProps) => {
 
   if (!post) return notFound();
 
-  return <BlogPostClient post={post} />;
+  const highlightedPost = { ...post, content: highlightHtml(post.content || "") };
+  return <BlogPostClient post={highlightedPost} />;
 };
 
 export default BlogPost;

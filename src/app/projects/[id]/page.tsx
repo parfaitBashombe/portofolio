@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { siteMetadata } from "@/lib/metadata";
 import { IProject } from "@/types";
+import { highlightHtml } from "@/lib/highlight-html";
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
@@ -69,5 +70,11 @@ export default async function Project({ params }: ProjectProps) {
 
   if (!project) return notFound();
 
-  return <ProjectDetailClient project={project} />;
+  const highlighted = highlightHtml(project.longDescription || project.longdescription || "");
+  const highlightedProject = {
+    ...project,
+    longDescription: highlighted,
+    longdescription: highlighted,
+  };
+  return <ProjectDetailClient project={highlightedProject} />;
 }

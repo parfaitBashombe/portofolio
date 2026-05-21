@@ -262,23 +262,31 @@ html {
   color: var(--color-foreground);
 }
 .prose code:not(pre code) {
-  background: hsl(220 14% 16%);
-  color: hsl(210 40% 80%);
+  background: hsl(220 14% 92%);
+  color: hsl(220 20% 20%);
   padding: 0.2rem 0.45rem;
   border-radius: 0.3rem;
   font-size: 0.85em;
   font-family: var(--font-geist-mono), ui-monospace, monospace;
 }
+.dark .prose code:not(pre code) {
+  background: hsl(220 14% 16%);
+  color: hsl(210 40% 80%);
+}
 .prose pre {
   position: relative;
   background: #011627 !important;
-  border: 1px solid hsl(220 25% 20%);
+  color: #d6deeb;
+  border: 1px solid hsl(220 20% 22%);
   padding: 1.25rem 1.25rem 1rem;
   border-radius: 0.75rem;
   overflow-x: auto;
   margin-bottom: 1.75rem;
   scrollbar-width: thin;
   scrollbar-color: hsl(220 25% 25%) transparent;
+}
+.dark .prose pre {
+  border-color: hsl(220 25% 16%);
 }
 .prose pre::-webkit-scrollbar {
   height: 6px;
@@ -293,7 +301,51 @@ html {
   font-size: 0.875rem;
   font-family: var(--font-geist-mono), ui-monospace, monospace;
   line-height: 1.65;
+  color: #d6deeb;
 }
+
+/* ── Night Owl syntax colors — scoped to .prose pre for high specificity ── */
+/* These apply in both light and dark themes since code blocks are always dark */
+.prose pre .hljs-keyword,
+.prose pre .hljs-operator,
+.prose pre .hljs-selector-tag { color: #c792ea; font-style: italic; }
+
+.prose pre .hljs-string,
+.prose pre .hljs-attr,
+.prose pre .hljs-attribute,
+.prose pre .hljs-addition { color: #addb67; }
+
+.prose pre .hljs-title,
+.prose pre .hljs-title.class_,
+.prose pre .hljs-title.function_,
+.prose pre .hljs-function { color: #82aaff; }
+
+.prose pre .hljs-number,
+.prose pre .hljs-literal { color: #f78c6c; }
+
+.prose pre .hljs-comment,
+.prose pre .hljs-quote { color: #637777; font-style: italic; }
+
+.prose pre .hljs-built_in,
+.prose pre .hljs-class { color: #ffcb8b; }
+
+.prose pre .hljs-name,
+.prose pre .hljs-tag { color: #7fdbca; }
+
+.prose pre .hljs-type,
+.prose pre .hljs-meta,
+.prose pre .hljs-selector-id { color: #82aaff; }
+
+.prose pre .hljs-property,
+.prose pre .hljs-variable,
+.prose pre .hljs-template-variable { color: #addb67; }
+
+.prose pre .hljs-symbol,
+.prose pre .hljs-bullet { color: #d6deeb; }
+
+.prose pre .hljs-deletion { color: #ef5350; }
+
+.prose pre .hljs-section { color: #82aaff; font-weight: bold; }
 
 /* Copy button injected into pre blocks by ProseContent */
 .copy-btn {

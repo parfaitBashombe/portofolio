@@ -11,6 +11,8 @@ import bash from "highlight.js/lib/languages/bash";
 import json from "highlight.js/lib/languages/json";
 import sql from "highlight.js/lib/languages/sql";
 
+hljs.configure({ ignoreUnescapedHTML: true });
+
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("js", javascript);
 hljs.registerLanguage("typescript", typescript);
@@ -38,8 +40,8 @@ export const ProseContent = ({ html, className }: ProseContentProps) => {
     const container = ref.current;
     if (!container) return;
 
-    // Syntax highlight every code block
-    container.querySelectorAll("pre code").forEach((el) => {
+    // Syntax highlight code blocks not already highlighted server-side
+    container.querySelectorAll("pre code:not(.hljs)").forEach((el) => {
       hljs.highlightElement(el as HTMLElement);
     });
 
