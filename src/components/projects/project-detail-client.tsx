@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ProjectImageCarousel from "@/components/projects/project-image-carousel";
+import { ProseContent } from "@/components/prose-content";
 import { IProject } from "@/types";
 
 interface ProjectDetailClientProps {
@@ -160,12 +161,9 @@ export const ProjectDetailClient = ({ project }: ProjectDetailClientProps) => {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="bg-card border border-border/60 rounded-2xl p-5 md:p-8"
           >
-            <div
+            <ProseContent
+              html={project.longDescription || project.longdescription || ""}
               className="prose prose-lg dark:prose-invert max-w-none overflow-hidden"
-              dangerouslySetInnerHTML={{
-                __html:
-                  project.longDescription || project.longdescription || "",
-              }}
             />
           </motion.div>
         )}

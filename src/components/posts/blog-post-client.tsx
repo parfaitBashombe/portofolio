@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { IPost } from "@/types";
+import { ProseContent } from "@/components/prose-content";
 
 interface BlogPostClientProps {
   post: IPost;
@@ -109,9 +110,9 @@ export function BlogPostClient({ post }: BlogPostClientProps) {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="bg-card border border-border/60 rounded-2xl p-5 md:p-8"
         >
-          <div
+          <ProseContent
+            html={post.content || ""}
             className="prose prose-lg dark:prose-invert max-w-none overflow-hidden"
-            dangerouslySetInnerHTML={{ __html: post.content || "" }}
           />
         </motion.article>
 
