@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Calendar, ExternalLink, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ProjectImageCarousel from "@/components/projects/project-image-carousel";
+import { ProseContent } from "@/components/prose-content";
 import { IProject } from "@/types";
 
 interface ProjectDetailModalProps {
@@ -150,11 +151,9 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
                   <p className="text-xs font-semibold text-primary uppercase tracking-widest">
                     Overview
                   </p>
-                  <div
+                  <ProseContent
+                    html={project.longDescription || project.longdescription || ""}
                     className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground"
-                    dangerouslySetInnerHTML={{
-                      __html: project.longDescription || project.longdescription || "",
-                    }}
                   />
                 </div>
               )}

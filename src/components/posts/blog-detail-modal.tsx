@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Calendar, Clock } from "lucide-react";
+import { ProseContent } from "@/components/prose-content";
 import { IPost } from "@/types";
 
 interface BlogDetailModalProps {
@@ -116,9 +117,9 @@ const BlogDetailModal = ({ post, onClose }: BlogDetailModalProps) => {
 
               {/* Content */}
               {post.content ? (
-                <div
+                <ProseContent
+                  html={post.content}
                   className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground"
-                  dangerouslySetInnerHTML={{ __html: post.content }}
                 />
               ) : (
                 <p className="text-sm text-muted-foreground italic">
