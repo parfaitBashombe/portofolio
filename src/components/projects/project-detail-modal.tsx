@@ -78,13 +78,15 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
                 <span className="px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
                   {project.category}
                 </span>
-                <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                  <Calendar className="h-3 w-3" />
-                  {new Date(project.date).toLocaleDateString("en-US", {
-                    month: "long",
-                    year: "numeric",
-                  })}
-                </span>
+                {project.date && (
+                  <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <Calendar className="h-3 w-3" />
+                    {new Date(project.date).toLocaleDateString("en-US", {
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </span>
+                )}
               </div>
 
               {/* Title + description */}
