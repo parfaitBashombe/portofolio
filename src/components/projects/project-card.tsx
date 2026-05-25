@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import ProjectImageCarousel from "./project-image-carousel";
 import { IProject } from "@/types";
 
 type Props = {
@@ -12,14 +11,21 @@ type Props = {
 };
 
 const ProjectCard = ({ project, index, onView }: Props) => {
+  const mainImage = project.main_image || project.image;
+
   const imageArea = (
-    <div className="relative overflow-hidden">
-      <ProjectImageCarousel
-        mainImage={project.main_image || project.image}
-        additionalImages={project.additional_images || []}
-        title={project.title}
-        className="h-52 group-hover:scale-[1.02] transition-transform duration-500"
-      />
+    <div className="relative overflow-hidden h-52">
+      {mainImage ? (
+        <img
+          src={mainImage}
+          alt={project.title}
+          className="object-cover w-full h-full group-hover:scale-[1.02] transition-transform duration-500"
+        />
+      ) : (
+        <div className="w-full h-full bg-muted flex items-center justify-center">
+          <span className="text-muted-foreground text-sm">No image available</span>
+        </div>
+      )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       <span className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full bg-primary text-primary-foreground text-xs font-semibold tracking-wide shadow-sm">
         {project.category}
