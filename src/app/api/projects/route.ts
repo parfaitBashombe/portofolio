@@ -24,6 +24,7 @@ const mapToIProject = (project: Record<string, unknown>): IProject => {
 export const GET = async (request: NextRequest) => {
   const { searchParams } = new URL(request.url);
   const category = searchParams.get("category");
+  const limit = searchParams.get("limit");
 
   const supabase = await createServerClient();
 
@@ -36,6 +37,10 @@ export const GET = async (request: NextRequest) => {
 
     if (category) {
       query = query.eq("category", category);
+    }
+
+    if (limit) {
+      query = query.limit(parseInt(limit, 10));
     }
 
     const { data, error } = await query;

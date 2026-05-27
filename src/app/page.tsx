@@ -27,7 +27,7 @@ const Home = async () => {
   const [skills, projects, posts, contactResponse, socialLinks] =
     await Promise.all([
       fetchApi<ISkill[]>("/api/skills", []),
-      fetchApi<IProject[]>("/api/projects", []),
+      fetchApi<IProject[]>("/api/projects?limit=6", []),
       fetchApi<IPost[]>("/api/posts?limit=3", []),
       fetchApi<{ data: IContactInfo | null }>("/api/contact", { data: null }),
       fetchApi<ISocialLink[]>("/api/social-links", []),
